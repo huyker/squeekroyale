@@ -1,3 +1,4 @@
+a9d5709b-407a-4600-9ffe-c6b23d122699
 # Squeek Royale
 
 Deterministic 2D hamster battle royale whose results are settled on-chain.
