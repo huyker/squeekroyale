@@ -136,7 +136,6 @@ function applyGate() {
   const on = connected();
   $('walletGate').style.display = on ? 'none' : '';
   $('hubContent').style.display = on ? '' : 'none';
-  $('btnRefresh').style.display = on ? '' : 'none';
   $('walletGateNoMM').style.display = hasWallet() ? 'none' : '';
   $('btnGateConnect').style.display = hasWallet() ? '' : 'none';
   if (!on) {
@@ -268,9 +267,14 @@ async function readyToWrite() {
   return ensureChain();
 }
 
+// "Disconnect" is remembered: the page then stops reconnecting by itself until Connect is pressed.
+const WALLET_OFF = 'squeek_wallet_off';
+const walletOff = () => { try { return localStorage.getItem(WALLET_OFF) === '1'; } catch { return false; } };
+
 async function connect() {
   try {
     S.wallet = await connectWallet();
+    try { localStorage.removeItem(WALLET_OFF); } catch { /* private mode */ }
     if (S.wallet.chainId !== S.chainId) await ensureChain();
     renderAccount();
     applyGate();
@@ -280,27 +284,53 @@ async function connect() {
 
 /** MetaMask account/network changed: follow it silently, lock the hub if access was revoked. */
 async function followWallet() {
-  S.wallet = await tryReconnect();
+  S.wallet = walletOff() ? null : await tryReconnect();
   S.hamsters = []; S.token = null;
   renderAccount();
   applyGate();
   if (S.wallet) await refresh();
 }
 
+/**
+ * Header: connected -> only the account pill "0xc785…1012 · Sepolia testnet" (click it for
+ * Disconnect); not connected -> only "Connect MetaMask"; wrong network -> pill + "Switch".
+ */
 function renderAccount() {
   const w = S.wallet;
   $('netPill').textContent = netName();
+  $('acctWrap').style.display = w ? '' : 'none';
   if (!w) {
-    $('acct').textContent = hasWallet() ? L('🔒 Wallet not connected', '🔒 Chưa kết nối ví') : L('🔒 MetaMask not installed', '🔒 Chưa cài MetaMask');
-    $('acct').className = 'pill';
+    closeAcctMenu();
+    renderNetWarn(true);
+    $('btnConnect').style.display = '';
     $('btnConnect').textContent = L('🦊 Connect MetaMask', '🦊 Kết nối MetaMask');
     return;
   }
   const right = w.chainId === S.chainId;
   renderNetWarn(right);
   $('acct').textContent = `${shortAddr(w.address)} · ${right ? netName() : L(`wrong network (chain ${w.chainId})`, `sai mạng (chain ${w.chainId})`)}`;
-  $('acct').className = `pill ${right ? 'ok' : 'bad'}`;
-  $('btnConnect').textContent = right ? L('🦊 Connected', '🦊 Đã kết nối') : L('🦊 Switch to Sepolia', '🦊 Chuyển sang Sepolia');
+  $('acct').className = `pill acct-pill ${right ? 'ok' : 'bad'}`;
+  $('acct').title = L('Account', 'Tài khoản');
+  $('acctFull').textContent = w.address;
+  $('btnConnect').style.display = right ? 'none' : '';
+  $('btnConnect').textContent = L('🦊 Switch to Sepolia', '🦊 Chuyển sang Sepolia');
+}
+
+function closeAcctMenu() {
+  $('acctMenu').hidden = true;
+  $('acct').setAttribute('aria-expanded', 'false');
+}
+
+async function disconnect() {
+  closeAcctMenu();
+  try { localStorage.setItem(WALLET_OFF, '1'); } catch { /* private mode */ }
+  // MetaMask also forgets this site (where supported), so the next Connect asks again
+  try { await window.ethereum?.request({ method: 'wallet_revokePermissions', params: [{ eth_accounts: {} }] }); }
+  catch { /* older wallets: the flag above is enough */ }
+  S.wallet = null; S.hamsters = []; S.token = null;
+  renderAccount();
+  applyGate();
+  say(L('Wallet disconnected.', 'Đã ngắt kết nối ví.'));
 }
 
 /** A clear banner (not just a pill) when MetaMask is connected to the wrong network. */
@@ -1112,7 +1142,8 @@ function renderOnchainRecords() {
                                 `💰 Nhận Toàn Bộ Thưởng (${fmtEth(totalWei)} ETH từ ${claimable.length} trận)`);
     hintEl.textContent = L(`Ready to claim from ${claimable.length} confirmed matches!`, `Sẵn sàng nhận thưởng từ ${claimable.length} trận đã Confirmed!`);
     btnQuickBar.style.display = 'inline-flex';
-    btnQuickBar.textContent = L(`💰 Claim ${fmtEth(totalWei)} ETH`, `💰 Nhận ngay ${fmtEth(totalWei)} ETH`);
+    btnQuickBar.textContent = `💰 ${fmtEth(totalWei)} ETH`;           // short: the nav is one row
+    btnQuickBar.title = L(`Claim ${fmtEth(totalWei)} ETH now`, `Nhận ngay ${fmtEth(totalWei)} ETH`);
     btnQuickBar.onclick = () => { switchModule('onchain-records'); claimAllRewards(claimable); };
     btnClaimAll.onclick = () => claimAllRewards(claimable);
   }
@@ -1369,7 +1400,15 @@ function initTabs() {
 // ------------------------------------------------------------------ boot
 $('btnConnect').onclick = connect;
 $('btnGateConnect').onclick = connect;
-$('btnRefresh').onclick = refresh;
+$('acct').onclick = (e) => {
+  e.stopPropagation();
+  const m = $('acctMenu');
+  m.hidden = !m.hidden;
+  $('acct').setAttribute('aria-expanded', String(!m.hidden));
+};
+$('btnDisconnect').onclick = disconnect;
+document.addEventListener('click', (e) => { if (!$('acctWrap').contains(e.target)) closeAcctMenu(); });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAcctMenu(); });
 $('btnMint').onclick = async () => {
   const q = Number($('mintQty').value);
   if (!(await readyToWrite())) return;
@@ -1406,8 +1445,8 @@ squeekAudio.startBgm('hub');
 renderAccount();
 applyGate();
 // Wait for server-published addresses (deployments.json) before the first read.
-chainReady.then(tryReconnect).then(async (w) => {
+chainReady.then(() => (walletOff() ? null : tryReconnect())).then(async (w) => {
   if (w) { S.wallet = w; renderAccount(); applyGate(); renderAll(); await refresh(); }
 });
 
-window.squeekPlay = { S, refresh, connect, switchModule, watchArenaInHub };
+window.squeekPlay = { S, refresh, connect, disconnect, switchModule, watchArenaInHub };

@@ -2000,6 +2000,8 @@ a.btn-lg {
 }
 
 /* Top Nav Bar & Links — Strict single-line layout (overrides dapp.css header flex shrink) */
+/* Top Nav Bar — one row that always fits the screen, aligned with the page content
+   (.container, 1320px). Narrower screens drop the brand words, then fold the menu into ☰. */
 header.site-nav,
 .site-nav {
   display: block !important;
@@ -2008,13 +2010,13 @@ header.site-nav,
 
 .site-nav > .container {
   width: 100%;
-  max-width: 1420px;
+  max-width: 1320px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-wrap: nowrap;
   gap: 12px;
-  padding: 10px 20px;
+  padding: 10px 24px;
 }
 
 .site-nav .brand {
@@ -2034,9 +2036,10 @@ header.site-nav,
 .site-nav .nav-menu {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 2px;
   flex-wrap: nowrap;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  margin: 0 auto;
   list-style: none;
 }
 
@@ -2047,18 +2050,78 @@ header.site-nav,
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 12px;
-  font-size: 0.84rem;
+  padding: 7px 8px;
+  font-size: 0.82rem;
   line-height: 1.2;
 }
 
-.site-nav .nav-actions,
+.site-nav .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
 .site-nav .nav-actions .btn,
 .site-nav .nav-actions .pill,
 .site-nav .lang-toggle,
 .site-nav .lang-btn {
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+/* sound on/off is an icon in the nav (its tooltip says what it does) */
+.site-nav #btnAudioToggle {
+  min-width: 36px;
+  padding: 6px 9px;
+  justify-content: center;
+}
+.site-nav #btnAudioToggle span { display: none !important; }
+
+/* fitNav() in portal.js: .nav-tight drops the brand words, .nav-fold folds the menu into ☰ */
+.site-nav.nav-tight .brand-titles { display: none; }
+
+.site-nav.nav-fold .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    background: var(--bg-panel);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 24px;
+    border-bottom: 2px solid var(--border-glow);
+    gap: 6px;
+}
+.site-nav.nav-fold .nav-menu.open { display: flex; }
+.site-nav.nav-fold .mobile-nav-toggle { display: block; }
+
+@media (max-width: 900px) {      /* the same without JS on small screens */
+  .site-nav .brand-titles { display: none; }
+  .site-nav .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin: 0;
+    background: var(--bg-panel);
+    flex-direction: column;
+    align-items: stretch;
+    padding: 12px 24px;
+    border-bottom: 2px solid var(--border-glow);
+    gap: 6px;
+  }
+  .site-nav .nav-menu.open { display: flex; }
+  .site-nav .mobile-nav-toggle { display: block; }
+}
+
+@media (max-width: 560px) {
+  .site-nav > .container { padding: 8px 12px; gap: 8px; }
+  .site-nav .nav-actions { gap: 6px; }
 }
 
 /* ==========================================================================

@@ -131,14 +131,18 @@ try {
   await p.shot('ui-1-minted');
 
   await p.ev(`window.squeekPlay.switchModule('battle-arena')`);
-  await p.waitFor(`!!document.querySelector('[data-join="${IA}"]')`, 60000, `join button on #${IA}`);
+  await p.waitFor(`!!document.querySelector('[data-join-open="${IA}"]')`, 60000, `join button on #${IA}`);
+  await p.ev(`document.querySelector('[data-join-open="${IA}"]').click()`);              // "Join" shows the picker
+  await p.waitFor(`!!document.querySelector('[data-join="${IA}"]') && document.querySelectorAll('[data-join-ham^="${IA}:"]').length > 0`, 20000, 'hamster picker');
   await p.ev(`document.querySelector('[data-join="${IA}"]').click()`);
   for (let i = 0; i < 60 && !(await are.tokenInArena(IA, myTok)); i++) await sleep(4000);
   if (!(await are.tokenInArena(IA, myTok))) throw new Error(`the person never got into #${IA}`);
   if ((await are.depositorOf(myTok)).toLowerCase() !== ME) bad('joining did not deposit the hamster first');
   step(`4c person pressed "Ký gửi + tham gia" on #${IA}: deposited and joined (2 MetaMask confirmations)`);
   await p.ev('window.squeekPlay.refresh()');
-  await p.waitFor(`!!document.querySelector('[data-join="${IB}"]')`, 60000, `join button on #${IB}`);
+  await p.waitFor(`!!document.querySelector('[data-join-open="${IB}"]')`, 60000, `join button on #${IB}`);
+  await p.ev(`document.querySelector('[data-join-open="${IB}"]').click()`);
+  await p.waitFor(`!!document.querySelector('[data-join="${IB}"]')`, 20000, 'hamster picker');
   await p.ev(`document.querySelector('[data-join="${IB}"]').click()`);
   for (let i = 0; i < 40 && !(await are.tokenInArena(IB, myTok)); i++) await sleep(4000);
   if (!(await are.tokenInArena(IB, myTok))) throw new Error(`the person never got into #${IB}`);
@@ -155,7 +159,9 @@ try {
   if (!created || created.args.creator.toLowerCase() !== ME) bad(`room #${IR} creator ${created && created.args.creator}`);
   if (Number(room.maxEntrants) !== 100 || Number(room.preset) !== 1) bad(`room #${IR}: max ${room.maxEntrants}, preset ${room.preset}`);
   await p.ev('window.squeekPlay.refresh()');
-  await p.waitFor(`!!document.querySelector('[data-join="${IR}"]')`, 60000, `join button on room #${IR}`);
+  await p.waitFor(`!!document.querySelector('[data-join-open="${IR}"]')`, 60000, `join button on room #${IR}`);
+  await p.ev(`document.querySelector('[data-join-open="${IR}"]').click()`);
+  await p.waitFor(`!!document.querySelector('[data-join="${IR}"]')`, 20000, 'hamster picker');
   await p.ev(`document.querySelector('[data-join="${IR}"]').click()`);
   for (let i = 0; i < 40 && !(await are.tokenInArena(IR, myTok)); i++) await sleep(4000);
   if (!(await are.tokenInArena(IR, myTok))) bad(`the person could not join their own room #${IR}`);

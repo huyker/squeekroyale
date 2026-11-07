@@ -1,14 +1,22 @@
 /**
  * SQUEEK ROYALE — PROCEDURAL WEB AUDIO ENGINE (BGM & SPATIAL GAMEPLAY SFX)
- * Zero external audio assets required: synthesizes polyphonic chiptune/synthwave BGM
- * for Landing (/), Player Hub (/play), and Battle Royale Gameplay (viewer.html),
- * plus spatialized combat sound effects for all weapons, hits, dodges, chests, and Crown events.
+ * Background music: a recorded loop (src/assets/audio/bgm-web.mp3) on the Landing (/) and
+ * the Player Hub (/play); a synthesized chiptune/synthwave theme in Battle Royale Gameplay
+ * (viewer.html), plus spatialized combat sound effects for all weapons, hits, dodges, chests, and Crown events.
  */
 
 import { EV } from '../core/constants.js';
 import { WEAPONS } from '../core/ruleset.js';
 
 const STORAGE_KEY = 'squeek_audio_muted';
+
+// Web pages (landing / and the hub /play) loop a recorded track; the battle viewer keeps its
+// synthesized theme. The track is decoded once and looped seamlessly through the BGM bus.
+const TRACKS = {
+  portal: new URL('../assets/audio/bgm-web.mp3', import.meta.url).href,
+  hub: new URL('../assets/audio/bgm-web.mp3', import.meta.url).href,
+};
+const TRACK_GAIN = 0.55;      // the recording is mixed louder than the synth: tame it under SFX
 
 // Musical note helper: MIDI note number -> frequency in Hz
 const mtof = (m) => 440 * Math.pow(2, (m - 69) / 12);
@@ -83,6 +91,10 @@ class SqueekAudioEngine {
     this.bgmSuppressed = false; // e.g. when /play embeds viewer.html iframe
     this.stepIdx = 0;
     this.bgmTimer = null;
+    this.trackSrc = null;       // looping AudioBufferSourceNode of a recorded theme
+    this.trackUrl = null;
+    this.trackBuffers = new Map(); // url -> Promise<AudioBuffer>
+    this.trackFailed = new Set();  // urls that could not load: those themes use the synth instead
     this.battleIntensity = 0; // 0..1 based on storm phase / alive count
     this.lastSfxAt = new Map();
     this.buttons = new Set();
@@ -90,6 +102,7 @@ class SqueekAudioEngine {
 
     if (typeof window !== 'undefined') {
       this._bindGlobalUnlock();
+      document.addEventListener('visibilitychange', () => this._applyGain());
       window.addEventListener('storage', (e) => {
         if (e.key === STORAGE_KEY) {
           this.muted = e.newValue === '1';
@@ -130,7 +143,8 @@ class SqueekAudioEngine {
     this.masterGain.gain.cancelScheduledValues(now);
     this.masterGain.gain.setTargetAtTime(target, now, 0.03);
     if (this.bgmGain) {
-      const bgmTarget = (this.muted || this.bgmSuppressed) ? 0.0001 : 0.24;
+      const quiet = this.muted || this.bgmSuppressed || (this._track() && document.hidden);
+      const bgmTarget = quiet ? 0.0001 : (this._track() ? TRACK_GAIN : 0.24);
       this.bgmGain.gain.cancelScheduledValues(now);
       this.bgmGain.gain.setTargetAtTime(bgmTarget, now, 0.06);
     }
@@ -146,7 +160,7 @@ class SqueekAudioEngine {
           this._syncButtons();
         }).catch(() => {});
       }
-      if (this.currentTheme && !this.bgmTimer) {
+      if (this.currentTheme && !this._bgmRunning()) {
         this._startSequencer();
       }
     };
@@ -170,7 +184,7 @@ class SqueekAudioEngine {
     } catch (_) {}
     this._ensureCtx();
     this._applyGain();
-    if (!this.muted && this.currentTheme && !this.bgmTimer) {
+    if (!this.muted && this.currentTheme && !this._bgmRunning()) {
       this._startSequencer();
     }
     this._syncButtons();
@@ -185,9 +199,10 @@ class SqueekAudioEngine {
   /** Start or switch the background music theme ('portal' | 'hub' | 'battle'). */
   startBgm(themeName = 'portal') {
     if (!THEMES[themeName]) return;
-    if (this.currentTheme === themeName && this.bgmTimer) return;
+    if (this.currentTheme === themeName && this._bgmRunning()) return;
     this.currentTheme = themeName;
     this.stepIdx = 0;
+    this._applyGain();
     this._startSequencer();
   }
 
@@ -196,10 +211,68 @@ class SqueekAudioEngine {
       clearInterval(this.bgmTimer);
       this.bgmTimer = null;
     }
+    this._stopTrack();
+  }
+
+  /** The recorded track for the current theme, or null when it has none or failed to load. */
+  _track() {
+    const url = TRACKS[this.currentTheme];
+    return url && !this.trackFailed.has(url) ? url : null;
+  }
+
+  _bgmRunning() {
+    return Boolean(this.bgmTimer || this.trackSrc || this._trackLoading);
+  }
+
+  _stopTrack() {
+    if (this.trackSrc) {
+      try { this.trackSrc.stop(); } catch (_) {}
+      this.trackSrc.disconnect();
+      this.trackSrc = null;
+    }
+    this.trackUrl = null;
+  }
+
+  /** Loop a recorded theme (needs a running AudioContext, i.e. after the first click/key). */
+  async _startTrack(url) {
+    if (this.trackUrl === url && (this.trackSrc || this._trackLoading)) return;
+    this._stopTrack();
+    const ctx = this.ctx;
+    if (!ctx) return;                       // no gesture yet: the global unlock starts it
+    this.trackUrl = url;
+    this._trackLoading = true;
+    try {
+      if (!this.trackBuffers.has(url)) {
+        this.trackBuffers.set(url, fetch(url).then((r) => {
+          if (!r.ok) throw new Error(`${url}: ${r.status}`);
+          return r.arrayBuffer();
+        }).then((b) => ctx.decodeAudioData(b)));
+      }
+      const buf = await this.trackBuffers.get(url);
+      if (this.trackUrl !== url || this.trackSrc) return;   // switched theme meanwhile
+      const src = ctx.createBufferSource();
+      src.buffer = buf;
+      src.loop = true;
+      src.connect(this.bgmGain);
+      src.start();
+      this.trackSrc = src;
+    } catch (e) {
+      this.trackBuffers.delete(url);
+      this.trackUrl = null;
+      this.trackFailed.add(url);
+      console.warn('background music:', e?.message || e, '(using the synthesized theme)');
+    } finally {
+      this._trackLoading = false;
+    }
+    // Track missing (e.g. a build shipped without audio files): fall back to the synth theme.
+    if (this.trackFailed.has(url) && TRACKS[this.currentTheme] === url) { this._applyGain(); this._startSequencer(); }
   }
 
   _startSequencer() {
     if (this.bgmTimer) clearInterval(this.bgmTimer);
+    this.bgmTimer = null;
+    if (this._track()) { this._startTrack(this._track()); return; }
+    this._stopTrack();
     const theme = THEMES[this.currentTheme];
     if (!theme) return;
     const stepMs = (60 / theme.bpm / 4) * 1000; // 16th-note step

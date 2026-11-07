@@ -68,7 +68,9 @@ try {
     await until(async () => (await ham.tokensOfOwner(ME)).length >= 2, 'mint 2');
     await p.ev(`window.squeekPlay.switchModule('battle-arena'); window.squeekPlay.refresh()`);
   }
-  await p.waitFor(`document.querySelectorAll('[data-join-ham^="${JOIN}:"]').length >= 2`, 90000, 'pictures on the open match card');
+  await p.waitFor(`!!document.querySelector('[data-join-open="${JOIN}"]')`, 90000, 'Join button');
+  await p.ev(`document.querySelector('[data-join-open="${JOIN}"]').click()`);         // pictures appear only now
+  await p.waitFor(`document.querySelectorAll('[data-join-ham^="${JOIN}:"]').length >= 2`, 30000, 'pictures after Join');
   const pics = await p.ev(`[...document.querySelectorAll('[data-join-ham^="${JOIN}:"]')].map((b) => ({ id: b.dataset.joinHam.split(':')[1], on: b.classList.contains('on'),
     drawn: (() => { const c = b.querySelector('canvas'); const d = c.getContext('2d').getImageData(0, 0, 128, 128).data; let n = 0; for (let i = 3; i < d.length; i += 4) if (d[i]) n++; return n; })() }))`);
   if (pics.some((x) => x.drawn < 500)) bad(`a hamster picture is empty: ${JSON.stringify(pics)}`);

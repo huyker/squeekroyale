@@ -3,6 +3,8 @@
 <head>
   <script src="src/ui/img-dot.js"></script>
   <meta charset="UTF-8" />
+  <!-- Squeekchain verification -->
+  <meta name="squeekchain-project" content="a9d5709b-407a-4600-9ffe-c6b23d122699">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script>try{var l=localStorage.getItem('squeek_lang');document.documentElement.lang=(l==='vi'?'vi':'en')}catch(e){document.documentElement.lang='en'}</script>
   <title data-t-en="SQUEEK ROYALE — Gameplay & Player Hub" data-t-vi="SQUEEK ROYALE — Trung Tâm Người Chơi">SQUEEK ROYALE — Gameplay & Player Hub</title>
@@ -41,10 +43,15 @@
 
       <div class="nav-actions">
         <span class="pill" id="netPill" style="display:none;">Sepolia</span>
-        <span class="pill" id="acct"></span>
+        <div class="acct-wrap" id="acctWrap" style="display:none;">
+          <button type="button" class="pill acct-pill" id="acct" aria-haspopup="true" aria-expanded="false"></button>
+          <div class="acct-menu" id="acctMenu" hidden>
+            <div class="acct-full" id="acctFull"></div>
+            <button type="button" class="btn btn-sm btn-outline" id="btnDisconnect">⏏ <span data-en>Disconnect</span><span data-vi>Ngắt kết nối</span></button>
+          </div>
+        </div>
         <button class="btn btn-sm btn-outline" id="btnQuickClaimBar" style="display:none;border-color:var(--gold);color:var(--gold);"></button>
         <button class="btn btn-sm btn-primary" id="btnConnect">🦊 <span data-en>Connect MetaMask</span><span data-vi>Kết nối MetaMask</span></button>
-        <button class="btn btn-sm btn-outline" id="btnRefresh" style="display:none" data-title-en="Reload data" data-title-vi="Làm mới dữ liệu" title="Reload data">🔄</button>
         <button class="btn btn-sm btn-outline" id="btnAudioToggle" data-compact="1" type="button">🔊 <span data-en>Audio</span><span data-vi>Âm thanh</span></button>
 
         <div class="lang-toggle">

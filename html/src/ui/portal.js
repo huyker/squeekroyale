@@ -792,9 +792,41 @@ export function initGlobalNav() {
       navMenu.classList.toggle('open');
     });
   }
+  initNavFit();
 
   // Set initial language
   setLanguage(currentLang);
+}
+
+/**
+ * The top nav is one row that must fit the screen: its content changes with the language and
+ * with what the page shows in it (account pill, claim button). When it does not fit, drop the
+ * brand words first (.nav-tight), then fold the menu into ☰ (.nav-fold).
+ */
+function initNavFit() {
+  const nav = document.querySelector('.site-nav');
+  const row = nav && nav.querySelector(':scope > .container');
+  if (!row) return;
+  let busy = false;
+  const overflows = () => row.scrollWidth > row.clientWidth + 1;
+  const fit = () => {
+    if (busy) return;
+    busy = true;
+    nav.classList.remove('nav-tight', 'nav-fold');
+    if (overflows()) nav.classList.add('nav-tight');
+    if (overflows()) nav.classList.add('nav-fold');
+    if (!nav.classList.contains('nav-fold')) nav.querySelector('.nav-menu')?.classList.remove('open');
+    busy = false;
+  };
+  fit();
+  window.addEventListener('resize', fit);
+  window.addEventListener('squeek:lang', () => requestAnimationFrame(fit));
+  document.fonts?.ready?.then(fit);
+  const actions = nav.querySelector('.nav-actions');
+  if (actions && window.MutationObserver) {
+    new MutationObserver(() => requestAnimationFrame(fit))
+      .observe(actions, { subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['style', 'class', 'hidden'] });
+  }
 }
 
 // Bootstrap
