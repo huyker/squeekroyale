@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="src/ui/img-dot.js"></script>
+<meta charset="UTF-8" />
+<script>try{var l=localStorage.getItem('squeek_lang');document.documentElement.lang=(l==='vi'?'vi':'en')}catch(e){document.documentElement.lang='en'}</script>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Squeek Royale — 2D Battle Royale Match Viewer</title>
+<style>
+  :root {
+    --bg-deep:#15101c; --bg-panel:#21182b; --bg-card:#2c203a; --bg-card-hover:#372848;
+    --border:#4a3560; --gold:#f8c84d; --gold-dim:#c79a2b; --amber:#efa04b; --pink:#ee9aa6;
+    --crimson:#e03e52; --green:#4cd97b; --cyan:#5ce0e6; --violet:#9f86b8;
+    --text:#f8eadb; --text-muted:#b8a3c8; --radius:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html:not([lang="vi"]) [data-vi],html[lang="vi"] [data-en]{display:none!important}
+  html,body{height:100%}
+  body{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    background:radial-gradient(circle at 50% 0%,#2d1d3d 0%,var(--bg-deep) 70%);color:var(--text);
+    line-height:1.5;overflow:hidden}
+  button{font-family:inherit}
+  header{background:rgba(21,16,28,.92);border-bottom:2px solid var(--border);padding:10px 20px;
+    display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px;z-index:50}
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-king-logo{position:relative;width:36px;height:36px;border-radius:10px;background:radial-gradient(circle at 50% 45%,rgba(248,200,77,.28) 0%,rgba(26,15,39,.92) 78%);border:1.5px solid rgba(248,200,77,.65);display:inline-flex;align-items:center;justify-content:center;flex-shrink:0}
+  .brand-king-logo .king-face{width:30px;height:30px;object-fit:cover;object-position:62% 38%;border-radius:8px;display:block}
+  .brand-king-logo .king-crown{position:absolute;top:-9px;left:50%;transform:translateX(-44%) rotate(-4deg);width:24px;height:24px;object-fit:contain;pointer-events:none}
+  .brand h1{font-size:1.02rem;font-weight:800;color:var(--gold);letter-spacing:-.01em}
+  .brand p{font-size:.74rem;color:var(--text-muted)}
+  .pill{font-size:.7rem;font-weight:700;padding:4px 9px;border-radius:999px;
+    background:rgba(76,217,123,.14);border:1px solid rgba(76,217,123,.45);color:var(--green)}
+  .pill.warn{background:rgba(248,200,77,.14);border-color:rgba(248,200,77,.45);color:var(--gold)}
+  .pill.dim{background:rgba(159,134,184,.14);border-color:rgba(159,134,184,.4);color:var(--violet)}
+  .pills{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  a.inspector-link{color:var(--cyan);font-size:.78rem;text-decoration:none;border-bottom:1px dotted var(--cyan)}
+
+  #screens{height:calc(100vh - 56px);position:relative}
+  .screen{position:absolute;inset:0;display:none;overflow:auto}
+  .screen.active{display:block}
+
+  /* ---------- setup ---------- */
+  .setup-wrap{max-width:1080px;margin:0 auto;padding:26px 20px 50px}
+  .hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:start}
+  @media(max-width:880px){.hero{grid-template-columns:1fr}}
+  .card{background:var(--bg-panel);border:1px solid var(--border);border-radius:var(--radius);padding:18px}
+  .card h2{font-size:1rem;color:var(--gold);margin-bottom:12px;letter-spacing:.01em}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:.76rem;color:var(--text-muted);font-weight:700;
+    text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+  .field input,.field select{width:100%;background:var(--bg-card);border:1px solid var(--border);
+    color:var(--text);padding:10px 12px;border-radius:10px;font-size:.92rem;font-family:inherit}
+  .row{display:flex;gap:10px}
+  .row>*{flex:1}
+  .btn{background:var(--bg-card);color:var(--text);border:1px solid var(--border);padding:10px 16px;
+    border-radius:10px;font-weight:700;font-size:.86rem;cursor:pointer;transition:.14s}
+  .btn:hover:not(:disabled){background:var(--bg-card-hover)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+  .btn.primary{background:linear-gradient(135deg,var(--gold),var(--amber));color:#25191f;border-color:var(--gold)}
+  .btn.primary:hover:not(:disabled){filter:brightness(1.08)}
+  .btn.ghost{background:transparent}
+  .btn.small{padding:6px 11px;font-size:.78rem}
+  .btn.active{background:linear-gradient(135deg,var(--gold),var(--amber));color:#25191f;border-color:var(--gold)}
+  .kv{display:grid;grid-template-columns:auto 1fr;gap:5px 14px;font-size:.8rem}
+  .kv dt{color:var(--text-muted);font-weight:700}
+  .kv dd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;word-break:break-all;color:var(--text)}
+  .note{font-size:.78rem;color:var(--text-muted);margin-top:10px}
+  .concept{width:100%;border-radius:10px;border:1px solid var(--border);display:block}
+  progress{width:100%;height:12px;border-radius:999px;overflow:hidden;appearance:none}
+  progress::-webkit-progress-bar{background:var(--bg-card);border-radius:999px}
+  progress::-webkit-progress-value{background:linear-gradient(90deg,var(--amber),var(--gold));border-radius:999px}
+  progress::-moz-progress-bar{background:var(--gold)}
+  .stage-list{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+  .stage{display:flex;align-items:center;gap:10px;font-size:.82rem;color:var(--text-muted)}
+  .stage .dot{width:9px;height:9px;border-radius:50%;background:var(--border);flex:none}
+  .stage.done .dot{background:var(--green)}.stage.done{color:var(--text)}
+  .stage.active .dot{background:var(--gold);box-shadow:0 0 0 4px rgba(248,200,77,.18)}
+  .stage.active{color:var(--gold);font-weight:700}
+  .stage.fail .dot{background:var(--crimson)}.stage.fail{color:var(--crimson)}
+
+  /* ---------- play ---------- */
+  #playScreen{display:none;height:100%}
+  #playScreen.active{display:grid;grid-template-rows:1fr auto}
+  #stage{position:relative;overflow:hidden;background:#15101c}
+  #gameCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:grab;touch-action:none}
+  #gameCanvas:active{cursor:grabbing}
+  .hud{position:absolute;pointer-events:none;font-size:.8rem}
+  #hudTop{top:10px;left:10px;right:10px;display:flex;gap:8px;flex-wrap:wrap;align-items:flex-start}
+  .hud-chip{background:rgba(21,16,28,.84);border:1px solid var(--border);border-radius:10px;
+    padding:6px 11px;font-weight:700;backdrop-filter:blur(6px)}
+  .hud-chip b{color:var(--gold)}
+  .hud-chip.king{border-color:var(--gold);color:var(--gold)}
+  #killFeed{position:absolute;top:50px;right:10px;width:272px;display:flex;flex-direction:column;gap:5px}
+  .kf{background:rgba(21,16,28,.82);border:1px solid var(--border);border-left:3px solid var(--crimson);
+    border-radius:8px;padding:5px 9px;font-size:.76rem;animation:kfin .2s ease}
+  @keyframes kfin{from{opacity:0;transform:translateX(14px)}to{opacity:1;transform:none}}
+  #leaderboard{position:absolute;top:50px;left:10px;width:196px;background:rgba(21,16,28,.82);
+    border:1px solid var(--border);border-radius:10px;padding:8px 10px;font-size:.74rem}
+  #leaderboard h4{font-size:.68rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
+  .lb-row{display:flex;justify-content:space-between;gap:8px;padding:1px 0}
+  .lb-row.me{color:var(--cyan)}
+  #inspector{position:absolute;bottom:10px;left:10px;width:308px;background:rgba(21,16,28,.9);
+    border:1px solid var(--border);border-radius:12px;padding:11px 13px;font-size:.76rem;
+    pointer-events:auto;display:none}
+  #inspector.open{display:block}
+  #inspector h4{font-size:.8rem;color:var(--gold);margin-bottom:6px;display:flex;justify-content:space-between}
+  .score-row{display:grid;grid-template-columns:62px 1fr 28px;gap:6px;align-items:center;margin:2px 0}
+  .score-bar{height:7px;background:var(--bg-card);border-radius:999px;overflow:hidden}
+  .score-bar i{display:block;height:100%;background:linear-gradient(90deg,var(--violet),var(--cyan))}
+  .score-row.sel .score-bar i{background:linear-gradient(90deg,var(--amber),var(--gold))}
+  #controls{background:rgba(21,16,28,.96);border-top:1px solid var(--border);padding:8px 12px;
+    display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  #controls .btn.small{padding:5px 8px;font-size:.74rem}
+  #controls .ctl-group{gap:3px}
+  #controls .ctl-label{font-size:.64rem}
+  #seek{flex:1;min-width:190px;accent-color:var(--gold)}
+  .ctl-group{display:flex;gap:5px;align-items:center}
+  .ctl-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+  #clock{font-family:ui-monospace,monospace;font-size:.84rem;color:var(--gold);min-width:104px;text-align:center}
+
+  /* ---------- result ---------- */
+  .result-wrap{max-width:1080px;margin:0 auto;padding:26px 20px 60px}
+  .winner-card{background:linear-gradient(135deg,rgba(248,200,77,.16),rgba(239,160,75,.07));
+    border:2px solid var(--gold);border-radius:18px;padding:22px;display:flex;gap:22px;align-items:center;flex-wrap:wrap}
+  .winner-card canvas{background:rgba(21,16,28,.4);border-radius:14px;border:1px solid var(--border)}
+  .winner-card h2{font-size:1.9rem;color:var(--gold);line-height:1.15}
+  table{width:100%;border-collapse:collapse;font-size:.82rem}
+  th,td{text-align:left;padding:6px 9px;border-bottom:1px solid rgba(74,53,96,.5)}
+  th{color:var(--text-muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.06em}
+  tbody tr:hover{background:rgba(55,40,72,.4)}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .err{background:rgba(224,62,82,.14);border:1px solid var(--crimson);color:#ffb4bd;
+    padding:11px 14px;border-radius:10px;font-size:.82rem;margin-top:12px}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:880px){.grid2{grid-template-columns:1fr}}
+/* Arena Hub mode (viewer.html?hub=1, embedded in /play): a broadcast, not an editor.
+   No seed or match settings, no seeking or speed change, names / HP / effects always on;
+   the camera stays the viewer's choice. */
+.hub-only{display:none}
+body.hub .hub-only{display:inline-flex}
+body.hub #setupScreen .field, body.hub #setupScreen .row, body.hub #setupScreen .card > .note,
+body.hub > header, body.hub #setupScreen h2, body.hub #arenaBanner .inspector-link,
+body.hub #btnRestart, body.hub #btnNextKill, body.hub #seek, body.hub .ctl-group:has(.spd),
+body.hub .tgl[data-t="labels"], body.hub .tgl[data-t="hp"], body.hub .tgl[data-t="vfx"],
+body.hub #btnToResult, body.hub #btnBackSetup, body.hub #btnNewMatch,
+body.hub.is-live #btnPlayPause,
+body.hub #btnExportResult, body.hub #btnExportReplay{display:none !important}
+#btnFollowMe{background:#b3001b;border-color:#b3001b;color:#fff;font-weight:800}
+/* live: no pause, a LIVE badge in front of the clock */
+body.is-live #clock::before{content:'● LIVE  ';color:#ff3b5c;font-weight:900}
+#btnFollowMe.active{box-shadow:0 0 0 2px #fff inset}
+</style>
+</head>
+<body>
+<header>
+  <div class="brand">
+    <span class="brand-king-logo" aria-hidden="true">
+      <img src="src/assets/agy/previews/seed_05_cheese_lord_spawn_unarmed_right.png" alt="" class="king-face" />
+      <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="" class="king-crown" />
+    </span>
+    <div>
+      <h1>SQUEEK ROYALE — Match Viewer</h1>
+      <p><span data-en>100 AI hamsters · deterministic replay · AGY V2 assets</span><span data-vi>100 hamster AI · replay tất định · asset AGY V2</span></p>
+    </div>
+  </div>
+  <div class="pills">
+    <span class="pill">D11 Precompute</span>
+    <span class="pill">D12 Same MatchKey</span>
+    <span class="pill">D13 One Winner</span>
+    <a class="inspector-link" style="color:var(--gold); font-weight:700;" href="/">🏠 Home</a>
+    <a class="inspector-link" href="/play">🎮 Player Hub →</a>
+  </div>
+</header>
+
+<div id="screens">
+  <!-- ======================= SETUP ======================= -->
+  <section class="screen active" id="setupScreen">
+    <div class="setup-wrap">
+      <div class="hero">
+        <div class="card">
+          <h2>1 · <span data-en>Match setup (before simulating)</span><span data-vi>Cấu hình trận (trước khi mô phỏng)</span></h2>
+          <div id="arenaBanner" style="display:none"></div>
+          <div class="field">
+            <label for="seedInput">Seed</label>
+            <div class="row">
+              <input id="seedInput" type="text" value="20261105" spellcheck="false" />
+              <button class="btn" id="btnRandomSeed" style="flex:0 0 auto">🎲 Random</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="field">
+              <label for="botCount"><span data-en>AI count</span><span data-vi>Số AI</span></label>
+              <select id="botCount">
+                <option value="50">50</option>
+                <option value="100" selected data-t-en="100 (default)" data-t-vi="100 (mặc định)">100 (default)</option>
+                <option value="200">200 (stress)</option>
+                <option value="500">500 (stress)</option>
+                <option value="1000">1000 (stress)</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="preset">Preset balance</label>
+              <select id="preset">
+                <option value="standard" selected>Standard V1</option>
+                <option value="brawler">Brawler</option>
+                <option value="sniper">Sniper</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label><input type="checkbox" id="hideWinner" checked style="width:auto;margin-right:7px" /><span data-en>Hide the winner until the replay ends</span><span data-vi>Giấu winner cho tới khi xem xong</span></label>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="btnGenerate">⚙ GENERATE MATCH</button>
+            <button class="btn" id="btnCancel" disabled>Cancel</button>
+          </div>
+          <div class="note"><span data-en>The simulator runs headless in a Web Worker at a fixed 20 ticks/s. Viewers cannot affect the result — only the pre-match setup and replay controls.</span><span data-vi>Simulator chạy trong Web Worker, headless, fixed 20 tick/s. Người xem không tác động được kết quả — chỉ cấu hình trước trận và điều khiển replay.</span></div>
+          <div id="setupError"></div>
+        </div>
+
+        <div class="card">
+          <h2>2 · Precompute &amp; verify</h2>
+          <progress id="simProgress" value="0" max="100"></progress>
+          <div class="stage-list" id="stageList">
+            <div class="stage" data-stage="lock"><span class="dot"></span><span>LOCK MANIFEST — canonicalise config + MatchKey</span></div>
+            <div class="stage" data-stage="precompute"><span class="dot"></span><span>PRECOMPUTE — <span data-en>headless simulator in a Worker</span><span data-vi>headless simulator trong Worker</span></span></div>
+            <div class="stage" data-stage="verify"><span class="dot"></span><span>VERIFY — <span data-en>hash + invariants + exactly 1 winner</span><span data-vi>hash + invariants + đúng 1 winner</span></span></div>
+            <div class="stage" data-stage="assets"><span class="dot"></span><span>ASSETS — <span data-en>load modular AGY layers</span><span data-vi>nạp layer AGY modular</span></span></div>
+            <div class="stage" data-stage="ready"><span class="dot"></span><span>READY — <span data-en>Play Replay unlocked</span><span data-vi>mở nút Play Replay</span></span></div>
+          </div>
+          <dl class="kv" id="simStats" style="margin-top:14px"></dl>
+          <div class="row" style="margin-top:14px">
+            <button class="btn primary" id="btnPlay" disabled>▶ PLAY REPLAY</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:20px">
+        <h2><span data-en>Locked rules</span><span data-vi>Luật đã khoá</span> (whitepaper §13)</h2>
+        <div class="grid2">
+          <div style="font-size:.82rem;color:var(--text-muted);line-height:1.75">
+            <b style="color:var(--text)">Gameplay</b><br>
+            <span data-en>100 hamsters spawn <b>empty-handed</b> and loot 8 weapons themselves (Dagger · Sword · Axe · Spear · Hammer · Bow · Crossbow · Magic Staff).<br>
+            Utility AI with 7 actions: ZONE · FLEE · ATTACK · LOOT · SUPPLY · HUNT · ROAM.<br>
+            The Crown goes to the <b>first to 3 kills</b>; killing the king takes the Crown + restores 100% HP; a king killed by the zone drops the Crown.<br>
+            The zone keeps shrinking; outside it is the Cat Storm (art only, no damage of its own).</span><span data-vi>100 hamster spawn <b>tay trắng</b>, tự loot 8 vũ khí (Dagger · Sword · Axe · Spear · Hammer · Bow · Crossbow · Magic Staff).<br>
+            Utility AI 7 hành động: ZONE · FLEE · ATTACK · LOOT · SUPPLY · HUNT · ROAM.<br>
+            Crown ở <b>3 kill đầu tiên</b>; giết vua → nhận Crown + hồi 100% HP; vua chết vì bo → Crown rơi xuống đất.<br>
+            Vòng bo co dần, ngoài bo là Cat Storm (chỉ là art, không tự gây damage).</span>
+          </div>
+          <div style="font-size:.82rem;color:var(--text-muted);line-height:1.75">
+            <b style="color:var(--text)"><span data-en>Technical hard locks</span><span data-vi>Hard lock kỹ thuật</span></b><br>
+            <span data-en>The whole match is computed <b>before</b> you press Play.<br>
+            Same MatchKey ⇒ same event log, same replay hash, same winner.<br>
+            Always exactly <b>one</b> winner, with a deterministic tie-break.<br>
+            Playback speed, seek, camera, FPS and skins do <b>not</b> change the result.</span><span data-vi>Toàn trận được tính xong <b>trước</b> khi bấm Play.<br>
+            Cùng MatchKey ⇒ cùng event log, cùng replay hash, cùng winner.<br>
+            Luôn đúng <b>một</b> winner, có tie-break deterministic.<br>
+            Tốc độ phát, seek, camera, FPS, skin <b>không</b> đổi kết quả.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================= PLAY ======================= -->
+  <section class="screen" id="playScreen">
+    <div id="stage">
+      <canvas id="gameCanvas"></canvas>
+      <div class="hud" id="hudTop">
+        <span class="hud-chip">ALIVE <b id="hudAlive">100</b></span>
+        <span class="hud-chip">⏱ <b id="hudClock">0:00</b></span>
+        <span class="hud-chip">PHASE <b id="hudPhase">LOOT</b></span>
+        <span class="hud-chip king" id="hudKing">♛ CROWN: —</span>
+        <span class="hud-chip" id="hudCam">CAM AUTO</span>
+      </div>
+      <div class="hud" id="leaderboard"><h4><span data-en>Top score</span><span data-vi>Top điểm</span></h4><div id="lbBody"></div></div>
+      <div class="hud" id="killFeed"></div>
+      <div id="inspector">
+        <h4><span id="insName">—</span><button class="btn small ghost" id="btnCloseInsp">✕</button></h4>
+        <div id="insBody"></div>
+      </div>
+    </div>
+    <div id="controls">
+      <button class="btn" id="btnPlayPause">⏸</button>
+      <button class="btn small active" id="btnAudioToggle" data-compact="1" type="button">🔊 <span data-en>Audio</span><span data-vi>Âm thanh</span></button>
+      <button class="btn small" id="btnRestart">⏮ Restart</button>
+      <button class="btn small" id="btnNextKill">⏭ Next kill</button>
+      <span id="clock" class="mono">0:00 / 0:00</span>
+      <input type="range" id="seek" min="0" max="100" value="0" step="0.1" />
+      <div class="ctl-group"><span class="ctl-label">Speed</span>
+        <button class="btn small spd" data-s="0.25">.25×</button>
+        <button class="btn small spd" data-s="0.5">.5×</button>
+        <button class="btn small spd active" data-s="1">1×</button>
+        <button class="btn small spd" data-s="2">2×</button>
+        <button class="btn small spd" data-s="4">4×</button>
+      </div>
+      <div class="ctl-group"><span class="ctl-label">Camera</span>
+        <button class="btn small cam active" data-c="auto">Auto</button>
+        <button class="btn small cam" data-c="follow">Follow</button>
+        <button class="btn small cam" data-c="free">Free</button>
+        <button class="btn small hub-only" id="btnFollowMe" title="Camera zooms in and follows your hamster">👤 <span data-en>Follow yourself</span><span data-vi>Theo dõi hamster của tôi</span></button>
+      </div>
+      <div class="ctl-group"><span class="ctl-label">View</span>
+        <button class="btn small tgl active" data-t="labels">Names</button>
+        <button class="btn small tgl active" data-t="hp">HP</button>
+        <button class="btn small tgl active" data-t="vfx">VFX</button>
+        <button class="btn small tgl" data-t="insp">Inspector</button>
+      </div>
+      <button class="btn small" id="btnToResult"><span data-en>Result</span><span data-vi>Kết quả</span> →</button>
+      <button class="btn small" id="btnBackSetup"><span data-en>New match</span><span data-vi>Trận mới</span></button>
+    </div>
+  </section>
+
+  <!-- ======================= RESULT ======================= -->
+  <section class="screen" id="resultScreen">
+    <div class="result-wrap">
+      <div class="winner-card">
+        <canvas id="winnerCanvas" width="200" height="200"></canvas>
+        <div style="flex:1;min-width:260px">
+          <div style="font-size:.78rem;color:var(--text-muted);letter-spacing:.1em;font-weight:800">WINNER</div>
+          <h2 id="winnerName">—</h2>
+          <div id="winnerMeta" style="font-size:.88rem;color:var(--text-muted);margin-top:6px"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn primary" id="btnReplayAgain">▶ Replay again</button>
+          <button class="btn" id="btnNewMatch">⚙ <span data-en>New match</span><span data-vi>Trận mới</span></button>
+          <button class="btn small" id="btnExportResult">⬇ Export manifest + result</button>
+          <button class="btn small" id="btnExportReplay">⬇ Export full replay</button>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top:20px">
+        <div class="card">
+          <h2>Match integrity</h2>
+          <dl class="kv" id="resultHashes"></dl>
+        </div>
+        <div class="card">
+          <h2>Crown timeline</h2>
+          <div id="crownTimeline" style="font-size:.82rem"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:18px">
+        <h2><span data-en>Standings</span><span data-vi>Bảng xếp hạng</span></h2>
+        <div style="max-height:420px;overflow:auto">
+          <table>
+            <thead><tr><th>#</th><th>Hamster</th><th>Personality</th><th title="Live points + K × kill points"><span data-en>Points</span><span data-vi>Điểm</span></th><th data-title-en="1 per second alive, ×2 while holding the Crown" data-title-vi="1/giây sống, ×2 khi giữ Crown" title="1 per second alive, ×2 while holding the Crown">Live</th><th data-title-en="1 per kill, ×2 for killing the Crown holder" data-title-vi="1/kill, ×2 khi hạ người giữ Crown" title="1 per kill, ×2 for killing the Crown holder">Kill pt</th><th>Kills</th><th>Damage</th><th><span data-en>Taken</span><span data-vi>Nhận</span></th><th><span data-en>Healed</span><span data-vi>Hồi máu</span></th><th><span data-en>Died (s)</span><span data-vi>Chết (s)</span></th><th>Weapon</th></tr></thead>
+            <tbody id="standingsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script type="module" src="src/ui/app.js"></script>
+</body>
+</html>

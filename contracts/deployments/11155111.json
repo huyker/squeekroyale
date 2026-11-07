@@ -1,0 +1,14 @@
+{
+  "chainId": 11155111,
+  "network": "sepolia",
+  "deployedAt": "2026-11-06T20:51:38.661Z",
+  "fromBlock": 12079040,
+  "owner": "0xd8685AbC684dFb8d001ce3cFb3c25cEc437EF7f8",
+  "hamster": "0xe4F5EfF02521a2795929Bb95e5cC7a0AEeE1A9f4",
+  "arena": "0x6caDE76e89930Dc64818697f8D3788ecA46551Eb",
+  "entryFeeWei": "100000000000000",
+  "mintPriceWei": "0",
+  "resultTimeout": 86400,
+  "claimDelay": 3600,
+  "operator": "0x3C88723EF0E7223E905C2C21bB0befcff1880a95"
+}

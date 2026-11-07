@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="src/ui/img-dot.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{var l=localStorage.getItem('squeek_lang');document.documentElement.lang=(l==='vi'?'vi':'en')}catch(e){document.documentElement.lang='en'}</script>
+  <title data-t-en="SQUEEK ROYALE — Tiny Hamsters. Massive Battles. | Landing Page & Whitepaper" data-t-vi="SQUEEK ROYALE — Tiny Hamsters. Massive Battles. | Trang Chủ & Whitepaper">SQUEEK ROYALE — Tiny Hamsters. Massive Battles. | Landing Page & Whitepaper</title>
+  <meta name="description" content="SQUEEK ROYALE — Tiny Hamsters. Massive Battles. 100 AI Hamster Battle Royale, deterministic simulation, 256-bit on-chain DNA NFT, and 90% prize pool." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="src/ui/dapp.css" />
+  <link rel="stylesheet" href="src/ui/portal.css" />
+  <style>
+    .page-hero { padding: 36px 0 28px; }
+    .hero-concept-card {
+      background: linear-gradient(180deg, rgba(44, 32, 58, 0.95), rgba(24, 17, 34, 0.98));
+      border: 1.5px solid rgba(248, 200, 77, 0.45);
+      border-radius: 18px;
+      padding: 14px;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55);
+    }
+    .hero-concept-main {
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: block;
+      background: #120c1a;
+    }
+  </style>
+</head>
+<body>
+  <div class="cyber-grid"></div>
+
+  <!-- SITE NAVIGATION (Single top bar — no duplicate sub-nav bars below) -->
+  <header class="site-nav">
+    <div class="container">
+      <a href="/" class="brand">
+        <span class="brand-king-logo" aria-hidden="true">
+          <img src="src/assets/agy/previews/seed_05_cheese_lord_spawn_unarmed_right.png" alt="" class="king-face" />
+          <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="" class="king-crown" />
+        </span>
+        <div class="brand-titles">
+          <h1>SQUEEK <span>ROYALE</span></h1>
+        </div>
+      </a>
+
+      <ul class="nav-menu">
+        <li><a href="#hero" class="nav-link active"><span data-en>🏠 Home</span><span data-vi>🏠 Trang Chủ</span></a></li>
+        <li><a href="#gameplay-preview" class="nav-link"><span data-en>🎬 Gameplay</span><span data-vi>🎬 Gameplay</span></a></li>
+        <li><a href="#how-to-join" class="nav-link"><span data-en>🚀 How to Join</span><span data-vi>🚀 Tham Gia</span></a></li>
+        <li><a href="#how-to-play" class="nav-link"><span data-en>⚔️ Rules</span><span data-vi>⚔️ Luật Chơi</span></a></li>
+        <li><a href="#hamster-collection" class="nav-link"><span data-en>🐹 Collection</span><span data-vi>🐹 Bộ Sưu Tập</span></a></li>
+        <li><a href="#whitepaper" class="nav-link">📜 Whitepaper</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn btn-sm btn-outline" id="btnAudioToggle" data-compact="1" type="button">🔊 <span data-en>Audio</span><span data-vi>Âm thanh</span></button>
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="vi">VI</button>
+        </div>
+
+        <a href="/play" class="btn btn-sm btn-primary" style="font-weight:900;letter-spacing:0.04em;">
+          <span data-en>🎮 PLAY NOW →</span><span data-vi>🎮 CHƠI NGAY →</span>
+        </a>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       1. HERO SECTION: SQUEEK ROYALE, Slogan "Tiny Hamsters. Massive Battles.",
+          Concept Art Showcase & PLAY NOW Button (/play)
+       ========================================================================= -->
+  <section class="page-hero" id="hero">
+    <div class="container">
+      <div class="hero-layout">
+        <div class="hero-content">
+          <div class="hero-tagline" style="display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap;">
+            <span class="badge badge-gold">SQUEEK ROYALE</span>
+            <span class="badge badge-cyan" data-i18n="badge_deterministic">100% Deterministic</span>
+            <span class="badge badge-green" data-i18n="badge_testnet">Sepolia Testnet</span>
+          </div>
+
+          <h1 class="hero-title" style="margin-bottom:14px;">
+            <span class="gradient-text">SQUEEK ROYALE</span><br />
+            <span style="font-size:2.2rem;color:#fff;">TINY HAMSTERS.</span><br />
+            <span class="gradient-text-cyan" style="font-size:2.35rem;">MASSIVE BATTLES.</span>
+          </h1>
+
+          <p class="hero-desc" data-en>
+            A 2D Battle Royale arena where <strong>100 AI hamster warriors</strong> parachute in at random, grab weapons on their own, hunt for the Crown and fight inside the shrinking Cat Storm. Every match is 100% deterministic and <strong>90% of the ETH prize pool</strong> is paid out directly by the Smart Contract!
+          </p>
+          <p class="hero-desc" data-vi>
+            Đấu trường sinh tồn 2D Battle Royale nơi <strong>100 chiến binh Hamster AI</strong> rơi dù ngẫu nhiên, tự động nhặt vũ khí, săn Vương Miện và đại chiến trong vòng bo Mèo Bão. Mọi trận đấu hoàn toàn tất định và chia <strong>90% quỹ thưởng ETH</strong> trực tiếp trên Smart Contract!
+          </p>
+
+          <div class="hero-ctas" style="align-items:center;margin-bottom:24px;">
+            <a href="/play" class="btn-play-now-hero" id="btnHeroPlayNow">
+              <span><span data-en>🎮 PLAY NOW</span><span data-vi>🎮 CHƠI NGAY</span></span>
+            </a>
+            <a href="#gameplay-preview" class="btn btn-lg btn-cyan">
+              <span data-en>🎬 Gameplay Preview</span><span data-vi>🎬 Xem Gameplay</span>
+            </a>
+            <a href="#whitepaper" class="btn btn-lg btn-outline">
+              <span data-en>📜 Whitepaper</span><span data-vi>📜 Whitepaper</span>
+            </a>
+          </div>
+
+          <div class="hero-stats-row">
+            <div class="stat-box">
+              <span class="val">100</span>
+              <span class="lbl" data-i18n="hero_stat_bots">AI Bots / Match</span>
+            </div>
+            <div class="stat-box">
+              <span class="val">256-bit</span>
+              <span class="lbl"><span data-en>On-chain DNA NFT</span><span data-vi>NFT DNA On-chain</span></span>
+            </div>
+            <div class="stat-box">
+              <span class="val">~113s</span>
+              <span class="lbl" data-i18n="hero_stat_duration">Average Match</span>
+            </div>
+            <div class="stat-box">
+              <span class="val" style="color:var(--neon-cyan)">90%</span>
+              <span class="lbl" data-i18n="hero_stat_pool">Prize Pool Share</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Concept Art Column -->
+        <div class="hero-concept-card">
+          <img id="heroConceptImg" src="assets/reference/01_approved_arena_cat_storm.png" alt="Squeek Royale Concept Art" class="hero-concept-main" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       2. GAMEPLAY PREVIEW: Continuous chaotic combat highlight reel
+       ========================================================================= -->
+  <section class="lp-section" id="gameplay-preview">
+    <div class="container">
+      <div class="lp-section-header">
+        <h2 class="lp-section-title">
+          <span data-en>GAMEPLAY <span class="gradient-text">PREVIEW</span></span>
+          <span data-vi>XEM TRƯỚC <span class="gradient-text">GAMEPLAY</span></span>
+        </h2>
+        <p class="lp-section-sub" data-en>
+          The wildest, most chaotic fights in the arena: from the opening parachute scramble for weapons, to dog-piling the Crown holder, all the way to the deadly final Cat Storm circle!
+        </p>
+        <p class="lp-section-sub" data-vi>
+          Trích đoạn các pha giao tranh hỗn loạn đặc sắc nhất trong đấu trường: từ pha bung dù tranh vũ khí đầu trận, vây bắt Vua giữ Vương Miện, cho tới vòng bo Mèo Bão tử thần cuối trận!
+        </p>
+      </div>
+
+      <div class="highlight-reel-shell">
+        <div class="highlight-reel-topbar">
+          <div class="highlight-clip-tabs">
+            <button class="highlight-clip-btn active" type="button"><span data-en>⚔️ Clip #1: Opening Brawl</span><span data-vi>⚔️ Clip #1: Hỗn Chiến Đầu Trận</span></button>
+            <button class="highlight-clip-btn" type="button"><span data-en>👑 Clip #2: Crown Hunt</span><span data-vi>👑 Clip #2: Săn Vua Vương Miện</span></button>
+            <button class="highlight-clip-btn" type="button"><span data-en>🏹 Clip #3: Supply Drop</span><span data-vi>🏹 Clip #3: Hòm Tiếp Tế</span></button>
+            <button class="highlight-clip-btn" type="button"><span data-en>🐱 Clip #4: Final Circle</span><span data-vi>🐱 Clip #4: Bo Cuối Tử Thần</span></button>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;">
+            <button class="btn btn-sm btn-outline" id="btnHighlightAuto" type="button">🔁 Auto-Highlight: ON</button>
+            <a href="/play" class="btn btn-sm btn-primary"><span data-en>🎮 Enter Arena (/play) →</span><span data-vi>🎮 Vào Đấu Trường (/play) →</span></a>
+          </div>
+        </div>
+
+        <div class="highlight-stage-grid">
+          <div class="highlight-canvas-wrap">
+            <canvas id="gameplayPreviewCanvas" width="800" height="450"></canvas>
+            <div class="highlight-hud-top">
+              <div class="highlight-rec-badge">
+                <span class="rec-dot"></span>
+                <span><span data-en>HIGHLIGHT REEL · 20Hz DETERMINISTIC ENGINE</span><span data-vi>HIGHLIGHT · ENGINE TẤT ĐỊNH 20Hz</span></span>
+              </div>
+              <div style="display:flex;gap:8px;">
+                <span class="badge badge-gold" id="highlightAliveBadge">84 / 100 ALIVE</span>
+                <span class="badge badge-cyan" id="highlightZoneBadge">PHASE 1 · 3,800u</span>
+              </div>
+            </div>
+            <div class="highlight-hud-bottom">
+              <div class="highlight-caption-box">
+                <h4 id="highlightClipTitle"></h4>
+                <p id="highlightClipDesc"></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="highlight-killfeed-panel">
+            <div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid var(--border);">
+                <h4 style="font-size:0.9rem;color:var(--gold);"><span data-en>⚡ Highlight Kill Feed</span><span data-vi>⚡ Bảng Hạ Gục Nổi Bật</span></h4>
+                <span class="badge badge-pink"><span data-en>LIVE ACTION</span><span data-vi>TRỰC TIẾP</span></span>
+              </div>
+              <div class="killfeed-list" id="highlightKillFeed"></div>
+            </div>
+
+            <div style="background:rgba(248,200,77,0.08);border:1px solid rgba(248,200,77,0.3);border-radius:10px;padding:12px;font-size:0.78rem;">
+              <div style="font-weight:800;color:var(--gold);margin-bottom:4px;"><span data-en>🎯 Automatic Highlight Camera</span><span data-vi>🎯 Cơ Chế Highlight Tự Động</span></div>
+              <p style="color:var(--text-muted);line-height:1.45;" data-en>
+                On <a href="/play"><b>/play</b></a>, the Camera Director automatically cuts to the hottest action (multi-kills, Crown steals, supply drops) or lets you zoom in on your own hamster with <b>👤 Follow yourself</b>.
+              </p>
+              <p style="color:var(--text-muted);line-height:1.45;" data-vi>
+                Tại trang <a href="/play"><b>/play</b></a>, Camera Director tự động lia máy theo các điểm nóng giao tranh (Multi-kill, cướp Vương Miện, mở hòm tiếp tế) hoặc bấm <b>👤 Theo dõi hamster của tôi</b> để bám sát hamster của bạn.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       3. HOW TO JOIN: Visual Flow Diagram (Mint NFT -> Join Battle -> Claim Rewards)
+       ========================================================================= -->
+  <section class="lp-section" id="how-to-join">
+    <div class="container">
+      <div class="lp-section-header">
+        <h2 class="lp-section-title">
+          <span data-en>HOW TO <span class="gradient-text">JOIN</span></span>
+          <span data-vi>CÁCH <span class="gradient-text">THAM GIA</span></span>
+        </h2>
+        <p class="lp-section-sub" data-en>
+          Complete on-chain flow from minting your Hamster NFT and entering a Battle Royale room to claiming your share of the 90% ETH prize pool.
+        </p>
+        <p class="lp-section-sub" data-vi>
+          Sơ đồ quy trình trọn vẹn từ lúc Mint Hamster NFT, đưa chiến binh vào trận đấu Battle Royale cho tới khi đối soát và Claim 90% quỹ thưởng ETH.
+        </p>
+      </div>
+
+      <div class="join-diagram-shell">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span class="badge badge-gold"><span data-en>🗺️ END-TO-END PLAYER PIPELINE</span><span data-vi>🗺️ SƠ ĐỒ LUỒNG THAM GIA &amp; NHẬN THƯỞNG</span></span>
+            <span style="font-size:0.82rem;color:var(--text-muted);">
+              <span data-en>Mint NFT ➔ Deposit &amp; Join Battle ➔ 100 AI Battle ➔ Confirmed ➔ Claim 90% Pool</span>
+              <span data-vi>Mint NFT ➔ Ký Gửi &amp; Vào Trận ➔ 100 AI Đại Chiến ➔ Confirmed ➔ Claim 90% Thưởng</span>
+            </span>
+          </div>
+          <a href="/play" class="btn btn-sm btn-primary">
+            <span data-en>🚀 Start at /play →</span><span data-vi>🚀 Bắt Đầu Tại /play →</span>
+          </a>
+        </div>
+
+        <!-- 5-Stage Visual Flow Diagram -->
+        <div class="join-diagram-track">
+          <!-- Stage 1: Mint NFT -->
+          <div class="join-node node-mint">
+            <div>
+              <div class="join-node-top">
+                <span class="join-step-pill"><span data-en>STEP 01 · MINT</span><span data-vi>BƯỚC 01 · MINT NFT</span></span>
+                <div class="join-node-icon">
+                  <img src="src/assets/agy/previews/seed_01_nori_knight_spawn_unarmed_right.png" alt="Mint Hamster NFT" />
+                </div>
+              </div>
+              <h4><span data-en>1. Mint Hamster NFT</span><span data-vi>1. Mint Hamster NFT</span></h4>
+              <p data-en>
+                Connect <strong>MetaMask</strong> on <a href="/play#my-hamsters"><b>/play</b></a> and mint 1–10 ERC-721 Hamsters (free + gas). Each receives an immutable <strong>256-bit DNA</strong> setting 3 gear slots &amp; 5 stats (total 48–52).
+              </p>
+              <p data-vi>
+                Kết nối <strong>MetaMask</strong> tại <a href="/play#my-hamsters"><b>/play</b></a> và mint 1–10 Hamster ERC-721 (miễn phí + gas). Mỗi NFT nhận <strong>DNA 256-bit</strong> cố định 3 trang bị &amp; 5 chỉ số (tổng 48–52).
+              </p>
+            </div>
+            <div class="join-node-tag">
+              <span>SqueekHamster.mint()</span>
+              <span style="color:var(--gold);">ERC-721</span>
+            </div>
+          </div>
+
+          <!-- Arrow 1 -> 2 -->
+          <div class="join-arrow" aria-hidden="true">
+            <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 12H30M30 12L22 5M30 12L22 19" stroke="#f8c84d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span><span data-en>Deposit</span><span data-vi>Ký gửi</span></span>
+          </div>
+
+          <!-- Stage 2: Deposit & Join Battle -->
+          <div class="join-node node-join">
+            <div>
+              <div class="join-node-top">
+                <span class="join-step-pill"><span data-en>STEP 02 · JOIN</span><span data-vi>BƯỚC 02 · VÀO TRẬN</span></span>
+                <div class="join-node-icon">🪂</div>
+              </div>
+              <h4><span data-en>2. Deposit &amp; Join Battle</span><span data-vi>2. Ký Gửi &amp; Tham Gia Battle</span></h4>
+              <p data-en>
+                Deposit your NFT once (or click <strong>Deposit + Join</strong>) to enter scheduled arenas or <strong>create your own room</strong> (2–100 hamsters). Pay <strong>0.0001 ETH</strong> into the match pot.
+              </p>
+              <p data-vi>
+                Ký gửi NFT 1 lần (hoặc bấm <strong>Ký gửi + Tham gia</strong>) để vào trận theo lịch hoặc <strong>tự tạo phòng</strong> (2–100 hamster). Đóng <strong>0.0001 ETH</strong> vào quỹ thưởng trận.
+              </p>
+            </div>
+            <div class="join-node-tag">
+              <span>deposit() + join()</span>
+              <span style="color:var(--gold);">0.0001 ETH</span>
+            </div>
+          </div>
+
+          <!-- Arrow 2 -> 3 -->
+          <div class="join-arrow" aria-hidden="true">
+            <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 12H30M30 12L22 5M30 12L22 19" stroke="#00f2fe" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span><span data-en>Seed Lock</span><span data-vi>Khóa Seed</span></span>
+          </div>
+
+          <!-- Stage 3: 100 AI Battle Royale -->
+          <div class="join-node node-battle">
+            <div>
+              <div class="join-node-top">
+                <span class="join-step-pill"><span data-en>STEP 03 · BATTLE</span><span data-vi>BƯỚC 03 · ĐẠI CHIẾN</span></span>
+                <div class="join-node-icon">
+                  <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="Crown Battle" />
+                </div>
+              </div>
+              <h4><span data-en>3. 100 AI Battle Royale</span><span data-vi>3. 100 AI Tự Động Chiến Đấu</span></h4>
+              <p data-en>
+                A future <code>blockhash</code> sets random drop points. Hamsters loot weapons, hunt the <strong>Crown (×2 pts)</strong> &amp; survive the Cat Storm. Watch live with <strong>👤 Follow yourself</strong>!
+              </p>
+              <p data-vi>
+                <code>blockhash</code> tương lai tạo điểm rơi dù ngẫu nhiên. AI tự nhặt vũ khí, săn <strong>Vương Miện (×2 điểm)</strong> &amp; chạy bo Mèo Bão. Xem trực tiếp với nút <strong>👤 Theo dõi hamster của tôi</strong>!
+              </p>
+            </div>
+            <div class="join-node-tag">
+              <span>20Hz Integer Sim</span>
+              <span style="color:#ff8a98;">K = 50</span>
+            </div>
+          </div>
+
+          <!-- Arrow 3 -> 4 -->
+          <div class="join-arrow" aria-hidden="true">
+            <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 12H30M30 12L22 5M30 12L22 19" stroke="#4cd97b" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span><span data-en>Merkle Root</span><span data-vi>Merkle Root</span></span>
+          </div>
+
+          <!-- Stage 4: On-Chain Confirmed -->
+          <div class="join-node node-verify">
+            <div>
+              <div class="join-node-top">
+                <span class="join-step-pill"><span data-en>STEP 04 · VERIFY</span><span data-vi>BƯỚC 04 · ĐỐI SOÁT</span></span>
+                <div class="join-node-icon">⛓️</div>
+              </div>
+              <h4><span data-en>4. On-Chain Confirmed</span><span data-vi>4. Xác Nhận Kết Quả On-Chain</span></h4>
+              <p data-en>
+                <code>submitResult</code> records the <code>pointsRoot</code> Merkle tree, ranks, kills &amp; <code>resultHash</code> on-chain. Once verified past the confirmation window, status becomes <strong>✓ Confirmed</strong>.
+              </p>
+              <p data-vi>
+                <code>submitResult</code> ghi cây Merkle <code>pointsRoot</code>, hạng, số kill &amp; <code>resultHash</code> lên chain. Sau thời gian đối soát, trận đấu chuyển sang <strong>✓ Confirmed</strong>.
+              </p>
+            </div>
+            <div class="join-node-tag">
+              <span>ResultPosted</span>
+              <span style="color:var(--green);">✓ Confirmed</span>
+            </div>
+          </div>
+
+          <!-- Arrow 4 -> 5 -->
+          <div class="join-arrow" aria-hidden="true">
+            <svg viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M2 12H30M30 12L22 5M30 12L22 19" stroke="#f8c84d" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <span><span data-en>Payout</span><span data-vi>Nhận ETH</span></span>
+          </div>
+
+          <!-- Stage 5: Claim 90% Prize Pool -->
+          <div class="join-node node-claim">
+            <div>
+              <div class="join-node-top">
+                <span class="join-step-pill"><span data-en>STEP 05 · CLAIM</span><span data-vi>BƯỚC 05 · NHẬN THƯỞNG</span></span>
+                <div class="join-node-icon">💰</div>
+              </div>
+              <h4><span data-en>5. Claim 90% ETH Pool</span><span data-vi>5. Claim 90% Quỹ Thưởng ETH</span></h4>
+              <p data-en>
+                Press <strong>Claim All Rewards</strong> on <a href="/play#onchain-records"><b>/play</b></a>. The smart contract verifies your Merkle proof and transfers your share of <strong>90% of the pot</strong> in 1 transaction!
+              </p>
+              <p data-vi>
+                Bấm <strong>Claim Toàn Bộ Phần Thưởng</strong> tại <a href="/play#onchain-records"><b>/play</b></a>. Smart contract kiểm tra Merkle proof và trả phần thưởng từ <strong>90% quỹ ETH</strong> chỉ trong 1 giao dịch!
+              </p>
+            </div>
+            <div class="join-node-tag">
+              <span>claimAcross()</span>
+              <span style="color:var(--gold);">90% Prize Pool</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Two Guaranteed Smart Contract Outcomes -->
+        <div class="join-branches-grid">
+          <div class="join-branch-card branch-win">
+            <div style="font-size:1.35rem;line-height:1;">🏆</div>
+            <div>
+              <div style="font-weight:800;color:var(--green);font-size:0.86rem;margin-bottom:3px;">
+                <span data-en>Path A — Match Confirmed (≥ 2 Hamsters): Split 90% ETH Pool by Score</span>
+                <span data-vi>Nhánh A — Trận Đấu Confirmed (≥ 2 Hamster): Chia 90% Quỹ Thưởng ETH Theo Điểm</span>
+              </div>
+              <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;margin:0;" data-en>
+                <code>Reward = 90% Pot × (Your Hamster Score ÷ Total Match Score)</code>. Every second alive and every knockout earns ETH!
+              </p>
+              <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;margin:0;" data-vi>
+                <code>Phần Thưởng = 90% Quỹ Trận × (Điểm Hamster Của Bạn ÷ Tổng Điểm Cả Trận)</code>. Sống càng lâu và hạ gục càng nhiều, thưởng ETH càng lớn!
+              </p>
+            </div>
+          </div>
+
+          <div class="join-branch-card branch-refund">
+            <div style="font-size:1.35rem;line-height:1;">🛡️</div>
+            <div>
+              <div style="font-weight:800;color:var(--neon-cyan);font-size:0.86rem;margin-bottom:3px;">
+                <span data-en>Path B — Safety Net (Only 1 Entrant / Withdraw Anytime): 100% ETH Refund</span>
+                <span data-vi>Nhánh B — Bảo Toàn Tài Sản (Chỉ 1 Người Vào / Rút NFT Bất Kỳ Lúc Nào): Hoàn 100% Phí</span>
+              </div>
+              <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;margin:0;" data-en>
+                If only 1 player joins by start time, no match runs and you claim a <strong>100% fee refund</strong> immediately. Withdrawing your NFT cancels open entries and refunds their fees automatically.
+              </p>
+              <p style="font-size:0.78rem;color:var(--text-muted);line-height:1.45;margin:0;" data-vi>
+                Nếu đến giờ chỉ có 1 người tham gia, trận không diễn ra và bạn nhận lại <strong>100% phí 0.0001 ETH</strong> ngay lập tức. Rút NFT về ví bất kỳ lúc nào sẽ tự hủy các trận đang mở và hoàn phí.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. HOW TO PLAY: Core Battle Royale Rules & Weapon Armory
+       ========================================================================= -->
+  <section class="lp-section" id="how-to-play">
+    <div class="container">
+      <div class="lp-section-header">
+        <h2 class="lp-section-title">
+          <span data-en>BATTLE ROYALE <span class="gradient-text">RULES &amp; ARMORY</span></span>
+          <span data-vi>LUẬT <span class="gradient-text">BATTLE ROYALE &amp; KHO VŨ KHÍ</span></span>
+        </h2>
+        <p class="lp-section-sub" data-en>
+          Master the 3 survival phases, the K = 50 scoring formula, and inspect every weapon in the arena.
+        </p>
+        <p class="lp-section-sub" data-vi>
+          Nắm vững 3 cơ chế sinh tồn trong đấu trường, công thức tính điểm K = 50 và thông số chi tiết của từng loại vũ khí.
+        </p>
+      </div>
+
+      <!-- Battle Royale Rules: 3 Core Pillars & K=50 Formula -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span data-en>📜 Core Battle Royale Rules &amp; Scoring Formula (K = 50)</span>
+            <span data-vi>📜 Luật Battle Royale Cốt Lõi &amp; Công Thức Tính Điểm (K = 50)</span>
+          </div>
+          <span class="badge badge-gold"><span data-en>Score = Live Points + 50 × Kill Points</span><span data-vi>Điểm = Điểm Sống + 50 × Điểm Hạ Gục</span></span>
+        </div>
+
+        <div class="grid-3" style="margin-bottom:18px;">
+          <div class="step-box">
+            <span class="step-num">P1</span>
+            <h4><span data-en>🐾 Bare-Pawed Landing</span><span data-vi>🐾 Tiếp Đất Tay Không</span></h4>
+            <p data-en>
+              All Hamsters glide down and land within 1.5s–3.5s with <strong>Bare Paws</strong> (5 damage). Nobody starts with a weapon — the AI has to sprint across the 10,800×10,800u island to pick up weapons and healing items.
+            </p>
+            <p data-vi>
+              Tất cả Hamster tiếp đất từ dù lượn trong khoảng 1.5s–3.5s với <strong>Đôi Tay Trắng</strong> (5 sát thương). Không ai có vũ khí sẵn — AI phải tự chạy đi nhặt vũ khí và vật phẩm hồi máu trên đảo 10,800×10,800u.
+            </p>
+          </div>
+          <div class="step-box">
+            <span class="step-num">P2</span>
+            <h4><span data-en>👑 First Blood Crown &amp; King's Bounty</span><span data-vi>👑 Vương Miện First Blood &amp; Tiền Thưởng Vua</span></h4>
+            <p data-en>
+              The Hamster with the first knockout takes the <strong>Crown</strong> and earns <strong>×2 survival points per second</strong>. Whoever knocks out the Crown holder steals the Crown, earns <strong>×2 knockout points</strong> and <strong>instantly heals to 100% HP</strong>!
+            </p>
+            <p data-vi>
+              Hamster có mạng hạ gục đầu tiên đoạt <strong>Vương Miện</strong>, nhận <strong>×2 điểm sống mỗi giây</strong>. Bất kỳ ai hạ gục Vua sẽ cướp được Vương Miện, nhận <strong>×2 điểm hạ gục</strong> và <strong>hồi ngay 100% HP</strong>!
+            </p>
+          </div>
+          <div class="step-box">
+            <span class="step-num">P3</span>
+            <h4><span data-en>🐱 Cat Storm Circle &amp; 70 Paw Chests</span><span data-vi>🐱 Vòng Bo Mèo Bão &amp; 70 Rương Báu</span></h4>
+            <p data-en>
+              The 5,300u safe circle shrinks continuously down to 150u (4 → 45 HP/s outside the circle). <strong>70 Treasure Chests</strong> are scattered across the island and heal 65 HP at once when a hurt Hamster touches one.
+            </p>
+            <p data-vi>
+              Vòng an toàn bán kính 5,300u co liên tục về 150u (gây 4 → 45 HP/s ngoài bo). Khắp đảo có <strong>70 Rương Báu</strong> tự động hồi ngay 65 HP khi Hamster đang mất máu chạm vào.
+            </p>
+          </div>
+        </div>
+
+        <div class="wp-callout alert-cyan" style="margin-bottom:0;" data-en>
+          <strong>Transparent Reward Formula on the Smart Contract (SqueekArena.sol):</strong>
+          <div class="mono" style="font-size:0.95rem;color:var(--gold);margin:6px 0;">
+            Hamster Score = Survival Points (1 pt/second, ×2 while wearing the Crown) + 50 × Knockout Points (1 pt/KO, ×2 for knocking out the Crown holder)
+          </div>
+          <div style="font-size:0.84rem;color:var(--text-muted);">
+            Your ETH reward = <code>90% of the Arena Pot × (Your Hamster's Score ÷ Total Score of the Match)</code>. There is always exactly 1 Winner at rank #1 when the match ends.
+          </div>
+        </div>
+        <div class="wp-callout alert-cyan" style="margin-bottom:0;" data-vi>
+          <strong>Công Thức Chia Thưởng Minh Bạch Trên Smart Contract (SqueekArena.sol):</strong>
+          <div class="mono" style="font-size:0.95rem;color:var(--gold);margin:6px 0;">
+            Tổng Điểm Hamster = Điểm Sống (1 điểm/giây, ×2 khi đội Vương Miện) + 50 × Điểm Hạ Gục (1 điểm/hạ gục, ×2 khi hạ người đội Vương Miện)
+          </div>
+          <div style="font-size:0.84rem;color:var(--text-muted);">
+            Phần thưởng ETH của bạn = <code>90% Quỹ Trận Đấu × (Điểm Hamster Của Bạn ÷ Tổng Điểm Cả Trận)</code>. Luôn có duy nhất 1 Winner đứng hạng #1 khi kết thúc trận.
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive Weapon Armory Inspector -->
+      <div class="card" style="margin-bottom:0;">
+        <div class="card-header">
+          <div class="card-title">
+            <span data-i18n="armory_title">Combat Armory &amp; Survival Loot</span>
+          </div>
+          <span class="badge badge-cyan"><span data-en>Click a weapon to see its real combat stats</span><span data-vi>Bấm vào vũ khí để xem thông số thực chiến</span></span>
+        </div>
+        <div class="armory-container">
+          <div class="armory-grid" id="armoryGrid"></div>
+          <div class="weapon-detail-panel" id="weaponDetail"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       4. HAMSTER COLLECTION: 4 Rarity Card Frames, Live NFT Cards & 5 DNA Stats
+       ========================================================================= -->
+  <section class="lp-section" id="hamster-collection">
+    <div class="container">
+      <div class="lp-section-header">
+        <h2 class="lp-section-title">
+          <span data-en>HAMSTER <span class="gradient-text">COLLECTION</span></span>
+          <span data-vi>BỘ SƯU TẬP <span class="gradient-text">HAMSTER</span></span>
+        </h2>
+        <p class="lp-section-sub" data-en>
+          Every Hamster owns a 256-bit genome stored permanently on the blockchain, ranked into 4 distinctive NFT Card Frames with 5 combat attributes.
+        </p>
+        <p class="lp-section-sub" data-vi>
+          Mỗi Hamster sở hữu mã gen 256-bit lưu trữ vĩnh viễn trên blockchain, phân hạng vào 4 loại Khung Thẻ NFT đặc trưng cùng 5 thuộc tính chiến đấu.
+        </p>
+      </div>
+
+      <!-- 4 Card Frame Tier Explanation -->
+      <div class="grid-4" style="margin-bottom:24px;">
+        <div class="step-box" style="border-color:#ff4d5e;background:linear-gradient(180deg,rgba(255,30,56,0.14),var(--bg-card));">
+          <span class="badge" style="background:rgba(255,30,56,0.25);border-color:#ff4d5e;color:#ff9aa6;margin-bottom:8px;"><span data-en>🔥 MYTHIC TIER (&gt; 8.0 / 10)</span><span data-vi>🔥 HẠNG MYTHIC (&gt; 8.0 / 10)</span></span>
+          <h4 style="color:#ff6b7b;"><span data-en>Blazing Red Frame</span><span data-vi>Khung Đỏ Rực</span></h4>
+          <p data-en>
+            For elite mutated warriors whose attribute average is <strong>above 8.0/10</strong>. The card frame glows with a blazing-red fire aura.
+          </p>
+          <p data-vi>
+            Dành cho những chiến binh đột biến có điểm trung bình thuộc tính đạt <strong>trên 8.0/10</strong>. Khung thẻ phát sáng hào quang lửa đỏ rực.
+          </p>
+        </div>
+
+        <div class="step-box" style="border-color:#c99eff;background:linear-gradient(180deg,rgba(175,115,255,0.14),var(--bg-card));">
+          <span class="badge" style="background:rgba(175,115,255,0.25);border-color:#c99eff;color:#ebd6ff;margin-bottom:8px;"><span data-en>🔮 EPIC TIER (6.0 – 8.0 / 10)</span><span data-vi>🔮 HẠNG EPIC (6.0 – 8.0 / 10)</span></span>
+          <h4 style="color:#d4a5ff;"><span data-en>Soft Purple Frame</span><span data-vi>Khung Tím Nhẹ</span></h4>
+          <p data-en>
+            Veteran warriors with an average attribute score from <strong>6.0 to 8.0/10</strong>, featuring a glowing violet frame and strong mid-to-late game stats.
+          </p>
+          <p data-vi>
+            Chiến binh tinh nhuệ có điểm thuộc tính trung bình từ <strong>6.0 đến 8.0/10</strong>, mang khung tím phát sáng và bộ chỉ số giao tranh mạnh mẽ.
+          </p>
+        </div>
+
+        <div class="step-box" style="border-color:#52f29c;background:linear-gradient(180deg,rgba(46,213,115,0.14),var(--bg-card));">
+          <span class="badge" style="background:rgba(46,213,115,0.22);border-color:#52f29c;color:#98ffbe;margin-bottom:8px;"><span data-en>🌿 RARE TIER (4.0 – 5.9 / 10)</span><span data-vi>🌿 HẠNG RARE (4.0 – 5.9 / 10)</span></span>
+          <h4 style="color:#65f5a7;"><span data-en>Rare Emerald Frame</span><span data-vi>Khung Xanh Lục</span></h4>
+          <p data-en>
+            Balanced fighters with an average score from <strong>4.0 to 5.9/10</strong>, sporting a crisp emerald frame and 1–2 standout specialist attributes.
+          </p>
+          <p data-vi>
+            Chiến binh cân bằng với điểm trung bình từ <strong>4.0 đến 5.9/10</strong>, mang khung xanh lục sắc nét và 1–2 chỉ số chuyên biệt nổi trội.
+          </p>
+        </div>
+
+        <div class="step-box" style="border:2px dashed #a87644;background:linear-gradient(180deg,rgba(120,82,45,0.18),var(--bg-card));">
+          <span class="badge" style="background:rgba(120,82,45,0.35);border-color:#a87644;color:#dec09e;margin-bottom:8px;"><span data-en>🪵 WORN TIER (&lt; 4.0 / 10)</span><span data-vi>🪵 HẠNG WORN (&lt; 4.0 / 10)</span></span>
+          <h4 style="color:#d6b087;"><span data-en>Tattered Wood Frame</span><span data-vi>Khung Gỗ Rách</span></h4>
+          <p data-en>
+            Fighters averaging <strong>below 4.0/10</strong> wear an iron-nailed wooden plank frame. Every hamster still shares a 48–52 total stat budget!
+          </p>
+          <p data-vi>
+            Những chú Hamster có điểm trung bình <strong>dưới 4.0/10</strong> mang khung gỗ đóng đinh sắt. Tổng điểm 5 chỉ số trong trận vẫn luôn đạt 48–52!
+          </p>
+        </div>
+      </div>
+
+      <!-- Live Rendered 4 Showcase NFT Cards -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span data-en>🃏 The 4 NFT Card Frames &amp; Attribute Details</span>
+            <span data-vi>🃏 Trực Quan 4 Hạng Khung Thẻ NFT &amp; Chi Tiết Thuộc Tính</span>
+          </div>
+          <a href="/play#my-hamsters" class="btn btn-sm btn-primary"><span data-en>🦊 Mint &amp; Manage at /play →</span><span data-vi>🦊 Mint &amp; Quản Lý Tại /play →</span></a>
+        </div>
+        <div class="grid" id="landingNftCollectionGrid"></div>
+      </div>
+
+      <!-- Explanation of the 5 NFT Attributes + Live 5s Genome Simulator -->
+      <div class="grid-2" style="align-items:stretch;">
+        <div class="card" style="margin-bottom:0;">
+          <div class="card-header">
+            <div class="card-title">
+              <span data-en>🧬 The NFT's 5 Combat Attributes Explained</span>
+              <span data-vi>🧬 Giải Thích 5 Thuộc Tính Chiến Đấu Của NFT</span>
+            </div>
+            <span class="badge badge-cyan">On-Chain DNA 256-Bit</span>
+          </div>
+
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;" data-en>
+            At mint on <code>SqueekHamster.sol</code>, each 256-bit DNA sets 3 gear slots (Outfit +10 pts, Headwear +6 pts, Back Item +6 pts, empty slot +4 pts) added to 5 base stats (6 each, total 48–52):
+          </p>
+          <p style="font-size:0.85rem;color:var(--text-muted);margin-bottom:12px;" data-vi>
+            Khi mint trên <code>SqueekHamster.sol</code>, chuỗi DNA 256-bit quy định 3 ô trang bị (Trang phục +10 điểm, Mũ +6 điểm, Đồ lưng +6 điểm, ô trống +4 điểm) cộng vào 5 chỉ số gốc (mỗi chỉ số 6 điểm, tổng 48–52):
+          </p>
+
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;font-size:0.84rem;" data-en>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ff4b2b;">
+              <b style="color:#ff6b52;">1. STR — Strength:</b>
+              Multiplies attack damage dealt by <code>82% + 2% × STR</code> (94% – 118% damage).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #3ce67b;">
+              <b style="color:#5ef2a0;">2. AGI — Agility:</b>
+              Sets run speed (<code>76 + 3.5 × AGI</code> u/s), dodge chance and shorter weapon cooldowns.
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #00f2fe;">
+              <b style="color:#00f2fe;">3. ARM — Armor:</b>
+              Reduces incoming weapon damage by <code>ARM - 2%</code> (4% – 17% reduction).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ff5858;">
+              <b style="color:#ff8a98;">4. VIT — Vitality:</b>
+              Raises starting maximum HP to <code>170 + 5 × VIT HP</code> (200 – 255 HP).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ffd200;">
+              <b style="color:#ffd200;">5. PER — Perception:</b>
+              Widens sight radius (<code>270 + 10 × PER</code>u, 330 – 480u) and improves ranged accuracy.
+            </li>
+          </ul>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:10px;font-size:0.84rem;" data-vi>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ff4b2b;">
+              <b style="color:#ff6b52;">1. STR — Sức Mạnh:</b>
+              Nhân sát thương đòn đánh theo công thức <code>82% + 2% × STR</code> (94% – 118% sát thương).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #3ce67b;">
+              <b style="color:#5ef2a0;">2. AGI — Nhanh Nhẹn:</b>
+              Quyết định tốc độ chạy (<code>76 + 3.5 × AGI</code> u/s), tỷ lệ né đòn và giảm hồi chiêu vũ khí.
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #00f2fe;">
+              <b style="color:#00f2fe;">3. ARM — Giáp Trụ:</b>
+              Giảm trực tiếp sát thương vũ khí nhận vào <code>ARM - 2%</code> (giảm 4% – 17%).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ff5858;">
+              <b style="color:#ff8a98;">4. VIT — Sinh Lực:</b>
+              Tăng máu tối đa khi vào trận theo công thức <code>170 + 5 × VIT HP</code> (200 – 255 HP).
+            </li>
+            <li style="background:var(--bg-card);padding:10px 14px;border-radius:10px;border-left:3px solid #ffd200;">
+              <b style="color:#ffd200;">5. PER — Quan Sát:</b>
+              Mở rộng bán kính tầm nhìn (<code>270 + 10 × PER</code>u, 330 – 480u) và tăng độ chính xác tầm xa.
+            </li>
+          </ul>
+        </div>
+
+        <div id="autoDnaEngine">
+          <div class="dna-engine-card" style="height:100%;display:flex;flex-direction:column;justify-content:space-between;">
+            <div>
+              <div class="dna-engine-header">
+                <div class="dna-engine-ticker">
+                  <span class="ticker-pulse"></span>
+                  <div>
+                    <h4 style="color:#fff; font-size:0.95rem; font-weight:800;" data-i18n="dna_engine_title">Live Autonomous Genome Engine</h4>
+                    <p style="font-size:0.72rem; color:var(--text-muted);" data-i18n="dna_engine_sub">Auto-simulating a new on-chain DNA every 5 seconds</p>
+                  </div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <button class="btn btn-sm btn-outline" id="btnEnginePause" data-i18n="btn_pause">Pause</button>
+                  <button class="btn btn-sm btn-outline" id="btnEngineRoll" data-i18n="btn_roll">Roll Now</button>
+                </div>
+              </div>
+
+              <div class="dna-hex-bar">
+                <div class="dna-hex-text mono" id="engineDnaHex">0x0000000000000000000000000000000000000000000000000000000000000000</div>
+                <button class="btn-copy-dna" id="btnEngineCopy" data-i18n="btn_copy">Copy</button>
+              </div>
+
+              <div class="dna-engine-grid">
+                <div class="dna-preview-box">
+                  <img id="engineHamsterImg" src="src/assets/agy/previews/seed_01_nori_knight_spawn_unarmed_right.png" alt="Hamster NFT" class="dna-hamster-img" />
+                  <div class="dna-hamster-name" id="engineHamsterName">Hamster #1000</div>
+                  <div class="dna-hamster-sub">256-Bit On-Chain NFT</div>
+                </div>
+
+                <div class="dna-attributes-list">
+                  <div class="attr-row">
+                    <span class="name" data-i18n="dna_attr_str">STR</span>
+                    <div class="attr-track"><div class="attr-fill attr-fill-str" id="engFill_str" style="width:60%;"></div></div>
+                    <span class="attr-val" id="engVal_str">12</span>
+                  </div>
+                  <div class="attr-row">
+                    <span class="name" data-i18n="dna_attr_agi">AGI</span>
+                    <div class="attr-track"><div class="attr-fill attr-fill-agi" id="engFill_agi" style="width:50%;"></div></div>
+                    <span class="attr-val" id="engVal_agi">10</span>
+                  </div>
+                  <div class="attr-row">
+                    <span class="name" data-i18n="dna_attr_arm">ARM</span>
+                    <div class="attr-track"><div class="attr-fill attr-fill-arm" id="engFill_arm" style="width:75%;"></div></div>
+                    <span class="attr-val" id="engVal_arm">15</span>
+                  </div>
+                  <div class="attr-row">
+                    <span class="name" data-i18n="dna_attr_vit">VIT</span>
+                    <div class="attr-track"><div class="attr-fill attr-fill-vit" id="engFill_vit" style="width:60%;"></div></div>
+                    <span class="attr-val" id="engVal_vit">12</span>
+                  </div>
+                  <div class="attr-row">
+                    <span class="name" data-i18n="dna_attr_per">PER</span>
+                    <div class="attr-track"><div class="attr-fill attr-fill-per" id="engFill_per" style="width:40%;"></div></div>
+                    <span class="attr-val" id="engVal_per">8</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="dna-countdown-bar">
+              <div class="dna-countdown-fill" id="engineCountdownFill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =========================================================================
+       5. WHITEPAPER & ON-CHAIN RESULTS:
+          On-chain Results 4-Step Verification Flow + Full Whitepaper (VI & EN)
+       ========================================================================= -->
+  <section class="lp-section" id="whitepaper">
+    <div class="container">
+      <div class="lp-section-header">
+        <h2 class="lp-section-title">
+          <span data-en>WHITEPAPER &amp; <span class="gradient-text">ON-CHAIN RESULTS</span></span>
+          <span data-vi>WHITEPAPER &amp; <span class="gradient-text">KẾT QUẢ ON-CHAIN</span></span>
+        </h2>
+        <p class="lp-section-sub" data-en>
+          Game rules, hamster NFTs, how match results are recorded and verified on-chain, the spectator camera and rewards.
+        </p>
+        <p class="lp-section-sub" data-vi>
+          Luật chơi, NFT hamster, cơ chế ghi nhận &amp; đối soát kết quả trận đấu on-chain, camera xem trận và phần thưởng.
+        </p>
+      </div>
+
+      <!-- Dedicated On-Chain Results Explanation Card -->
+      <div class="card" id="sec-onchain-results" style="margin-bottom:24px;">
+        <div class="card-header">
+          <div class="card-title">
+            <span>⛓️ <span data-en>On-chain Results: How Match Results Are Recorded &amp; Confirmed</span><span data-vi>Kết Quả On-chain: Cơ Chế Ghi Nhận &amp; Xác Nhận Kết Quả Trận Đấu</span></span>
+          </div>
+          <span class="badge badge-green">✓ Confirmed On-Chain Only</span>
+        </div>
+
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:14px;" data-en>
+          In <strong>Squeek Royale</strong>, a match is only shown as <strong>Confirmed</strong> once its result has been recorded on the <code>SqueekArena.sol</code> smart contract and passed the confirmation window. Client-side data is never treated as an official result without blockchain verification.
+        </p>
+        <p style="font-size:0.9rem;color:var(--text-muted);margin-bottom:14px;" data-vi>
+          Trong <strong>Squeek Royale</strong>, một trận đấu chỉ hiển thị trạng thái <strong>Confirmed (Đã xác nhận)</strong> khi kết quả thực sự được ghi nhận trên hợp đồng thông minh <code>SqueekArena.sol</code> và hoàn tất thời gian xác nhận. Tuyệt đối không tự ý coi dữ liệu phía client là kết quả chính thức nếu chưa đối soát với blockchain.
+        </p>
+
+        <div class="onchain-flow-grid">
+          <div class="onchain-flow-step">
+            <span class="step-badge"><span data-en>STEP 1 · LOCK &amp; SEED</span><span data-vi>BƯỚC 1 · KHÓA SỔ &amp; SEED</span></span>
+            <h4><span data-en>Close Entries &amp; Blockhash Seed</span><span data-vi>Khóa Sổ &amp; Lấy Blockhash Seed</span></h4>
+            <p data-en>
+              When entries close at <code>closeBlock</code>, the match seed is derived from a future <code>blockhash(seedBlock)</code> — nobody can predict drop points or loot.
+            </p>
+            <p data-vi>
+              Khi đóng đăng ký tại <code>closeBlock</code>, seed trận đấu được lấy từ <code>blockhash(seedBlock)</code> tương lai — không ai biết trước vị trí rơi dù hay vũ khí.
+            </p>
+          </div>
+          <div class="onchain-flow-step">
+            <span class="step-badge"><span data-en>STEP 2 · PLAN &amp; SIMULATE</span><span data-vi>BƯỚC 2 · MÔ PHỎNG TẤT ĐỊNH</span></span>
+            <h4><span data-en>20Hz Deterministic Simulation</span><span data-vi>Mô Phỏng Tất Định 20Hz</span></h4>
+            <p data-en>
+              From the on-chain <code>seed</code> and deposited NFT <code>entries</code>, the 20Hz integer engine computes every hamster's score, rank, knockouts and <code>resultHash</code>.
+            </p>
+            <p data-vi>
+              Từ <code>seed</code> và danh sách NFT <code>entries</code> trên chain, bộ mô phỏng số nguyên 20Hz tính toán điểm số, thứ hạng, số hạ gục và <code>resultHash</code>.
+            </p>
+          </div>
+          <div class="onchain-flow-step">
+            <span class="step-badge"><span data-en>STEP 3 · SUBMIT &amp; MERKLE ROOT</span><span data-vi>BƯỚC 3 · GHI NHẬN ON-CHAIN</span></span>
+            <h4><span data-en>Post Result to Smart Contract</span><span data-vi>Ghi Kết Quả Lên Smart Contract</span></h4>
+            <p data-en>
+              <code>submitResult</code> writes scores (building the <code>pointsRoot</code> Merkle tree), ranks, knockouts and hashes on-chain and emits <code>ResultPosted</code>.
+            </p>
+            <p data-vi>
+              Giao dịch <code>submitResult</code> ghi điểm số (tạo cây Merkle <code>pointsRoot</code>), hạng, số hạ gục và mã băm lên chain, phát sự kiện <code>ResultPosted</code>.
+            </p>
+          </div>
+          <div class="onchain-flow-step">
+            <span class="step-badge"><span data-en>STEP 4 · CONFIRM &amp; CLAIM</span><span data-vi>BƯỚC 4 · XÁC NHẬN &amp; CLAIM</span></span>
+            <h4><span data-en>Confirmed Status &amp; Merkle Claim</span><span data-vi>Trạng Thái Confirmed &amp; Claim Thưởng</span></h4>
+            <p data-en>
+              After the confirmation window, the match becomes <strong>Confirmed</strong>. Players verify the on-chain record and claim their share of the 90% prize pool in one transaction.
+            </p>
+            <p data-vi>
+              Sau thời gian xác nhận, trận đấu đạt trạng thái <strong>Confirmed</strong>. Người chơi đối soát bản ghi on-chain và bấm Claim toàn bộ phần thưởng từ 90% quỹ thưởng.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Full Whitepaper with Sticky TOC -->
+      <div class="whitepaper-wrapper">
+        <aside class="whitepaper-toc">
+          <div class="toc-header">
+            <span data-en>📑 Table of Contents</span><span data-vi>📑 Mục Lục Whitepaper</span>
+          </div>
+          <input type="text" class="toc-search" id="tocSearch" placeholder="Search sections..." data-i18n-ph="wp_search_ph" />
+          <ul class="toc-list" id="tocList"></ul>
+        </aside>
+
+        <article class="whitepaper-doc" id="whitepaperMdContent">
+          <div class="wp-section"><p><span data-en>Loading the whitepaper…</span><span data-vi>Đang tải whitepaper…</span></p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPACT FOOTER (No duplicated nav lists, zero references to admin endpoints) -->
+  <footer class="site-footer" style="margin-top:48px;padding:24px 0;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;flex-wrap:wrap;gap:12px;">
+        <div class="brand">
+          <span class="brand-king-logo" aria-hidden="true" style="width:34px;height:34px;">
+            <img src="src/assets/agy/previews/seed_05_cheese_lord_spawn_unarmed_right.png" alt="" class="king-face" style="width:28px;height:28px;" />
+            <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="" class="king-crown" style="width:22px;height:22px;top:-8px;" />
+          </span>
+          <span style="font-weight:800;color:#fff;">SQUEEK <span style="color:var(--gold);">ROYALE</span></span>
+          <span style="color:var(--text-muted);font-size:0.78rem;">· © 2026 Squeek Royale</span>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;font-size:0.8rem;">
+          <a href="/play">🎮 <span data-en>Play Hub</span><span data-vi>Vào Chơi</span></a>
+          <a href="https://sepolia.etherscan.io" target="_blank" rel="noopener">Sepolia Etherscan ↗</a>
+          <a href="#hero" style="color:var(--text-muted);">↑ Top</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="src/ui/portal.js"></script>
+</body>
+</html>

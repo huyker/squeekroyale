@@ -1,0 +1,29 @@
+{
+  "name": "squeekroyale-html",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Squeek Royale — deterministic 2D hamster battle royale web demo (offline, no build step).",
+  "scripts": {
+    "serve": "python3 -m http.server 8777",
+    "test": "node tests/run-tests.mjs --runs 100",
+    "test:fast": "node tests/run-tests.mjs --runs 20",
+    "sim": "node tools/simulate-cli.mjs",
+    "golden": "node tools/golden.mjs",
+    "chain:test": "cd ../contracts && npx hardhat test",
+    "determinism": "node tools/simulate-cli.mjs --seed 20261105 --bots 100 --runs 100",
+    "bench": "node tools/benchmark.mjs",
+    "runtime": "node tools/runtime-check.mjs --seeds 12 --bots 2,3,8,50,100,200 --presets standard,brawler,sniper",
+    "runtime:big": "node tools/runtime-check.mjs --seeds 3 --bots 500,1000 --presets standard,brawler,sniper",
+    "browser": "node tools/browser-check.mjs --seeds 20261105,alpha --presets standard,brawler,sniper",
+    "combat": "node tools/combat-check.mjs --seeds 6",
+    "score": "node tools/score-report.mjs --seeds 10 --k 30,65,100",
+    "tune": "node tools/tune-ai.mjs --seeds 8 --rounds 2",
+    "autopilot": "cd ../contracts && node scripts/autopilot.mjs --network localhost --slots 100",
+    "autopilot:loop": "cd ../contracts && node scripts/autopilot.mjs --network localhost --slots 100 --rounds 0",
+    "gas": "cd ../contracts && ENTRANTS=100 npx hardhat run scripts/gas-report.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

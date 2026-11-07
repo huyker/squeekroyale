@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="src/ui/img-dot.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>try{var l=localStorage.getItem('squeek_lang');document.documentElement.lang=(l==='vi'?'vi':'en')}catch(e){document.documentElement.lang='en'}</script>
+  <title data-t-en="SQUEEK ROYALE — Gameplay & Player Hub" data-t-vi="SQUEEK ROYALE — Trung Tâm Người Chơi">SQUEEK ROYALE — Gameplay & Player Hub</title>
+  <meta name="description" content="Squeek Royale player hub on Sepolia: connect MetaMask to watch matches, join arenas, manage Hamster NFTs, view the leaderboard, match history and verified on-chain records." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <base href="/" />
+  <link rel="stylesheet" href="src/ui/dapp.css" />
+  <link rel="stylesheet" href="src/ui/portal.css" />
+  <link rel="stylesheet" href="src/ui/play.css" />
+</head>
+<body>
+  <div class="cyber-grid"></div>
+
+  <!-- SITE NAVIGATION (Single module bar + integrated wallet & language controls) -->
+  <header class="site-nav">
+    <div class="container">
+      <a href="/" class="brand">
+        <span class="brand-king-logo" aria-hidden="true">
+          <img src="src/assets/agy/previews/seed_05_cheese_lord_spawn_unarmed_right.png" alt="" class="king-face" />
+          <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="" class="king-crown" />
+        </span>
+        <div class="brand-titles">
+          <h1>SQUEEK <span>ROYALE</span></h1>
+        </div>
+      </a>
+
+      <ul class="nav-menu" id="hubTopNavMenu">
+        <li><a href="#battle-arena" class="nav-link active" data-mod-jump="battle-arena">🎮 <span data-en>Battle Arena</span><span data-vi>Đấu Trường</span></a></li>
+        <li><a href="#my-hamsters" class="nav-link" data-mod-jump="my-hamsters">🐹 <span data-en>My Hamsters</span><span data-vi>Hamster Của Tôi</span></a></li>
+        <li><a href="#leaderboard" class="nav-link" data-mod-jump="leaderboard">🏆 <span data-en>Leaderboard</span><span data-vi>Bảng Xếp Hạng</span></a></li>
+        <li><a href="#match-history" class="nav-link" data-mod-jump="match-history">📊 <span data-en>Match History</span><span data-vi>Lịch Sử Trận</span></a></li>
+        <li><a href="#onchain-records" class="nav-link" data-mod-jump="onchain-records">⛓️ <span data-en>On-chain Records</span><span data-vi>Bản Ghi On-chain</span></a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <span class="pill" id="netPill" style="display:none;">Sepolia</span>
+        <span class="pill" id="acct"></span>
+        <button class="btn btn-sm btn-outline" id="btnQuickClaimBar" style="display:none;border-color:var(--gold);color:var(--gold);"></button>
+        <button class="btn btn-sm btn-primary" id="btnConnect">🦊 <span data-en>Connect MetaMask</span><span data-vi>Kết nối MetaMask</span></button>
+        <button class="btn btn-sm btn-outline" id="btnRefresh" style="display:none" data-title-en="Reload data" data-title-vi="Làm mới dữ liệu" title="Reload data">🔄</button>
+        <button class="btn btn-sm btn-outline" id="btnAudioToggle" data-compact="1" type="button">🔊 <span data-en>Audio</span><span data-vi>Âm thanh</span></button>
+
+        <div class="lang-toggle">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn" data-lang="vi">VI</button>
+        </div>
+        <button class="mobile-nav-toggle" aria-label="Toggle navigation">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT (Starts immediately below the top navbar — no redundant page-hero or second nav bar) -->
+  <main class="container" style="padding-top:20px;padding-bottom:48px;">
+    <div id="msg" class="msg"></div>
+    <div id="noDeploy" style="display:none" class="play-no-deploy"></div>
+
+    <!-- WALLET GATE -->
+    <section class="play-section play-wallet-gate" id="walletGate">
+      <div class="play-empty-state">
+        <div class="play-empty-icon">🦊</div>
+        <h2 style="margin-bottom:8px;"><span data-en>Connect MetaMask to Enter</span><span data-vi>Kết Nối Ví Để Vào</span></h2>
+        <p id="walletGateText" style="max-width:540px;margin:0 auto 16px;">
+          <span data-en>Connect your MetaMask wallet on the Sepolia testnet to watch matches, join arenas, manage Hamster NFTs and claim on-chain rewards.</span>
+          <span data-vi>Kết nối ví MetaMask trên mạng Sepolia để xem trận đấu, tham gia đấu trường, quản lý Hamster NFT và nhận thưởng on-chain.</span>
+        </p>
+        <button class="btn btn-primary" id="btnGateConnect" type="button">🦊 <span data-en>Connect MetaMask</span><span data-vi>Kết nối MetaMask</span></button>
+        <p id="walletGateNoMM" style="display:none;margin-top:12px;">
+          <span data-en>MetaMask was not found in this browser. <a href="https://metamask.io/download/" target="_blank" rel="noopener">Install MetaMask ↗</a> and reload the page.</span>
+          <span data-vi>Không tìm thấy MetaMask trong trình duyệt này. <a href="https://metamask.io/download/" target="_blank" rel="noopener">Cài MetaMask ↗</a> rồi tải lại trang.</span>
+        </p>
+      </div>
+    </section>
+
+    <div id="hubContent" style="display:none">
+
+    <!-- MODULE 1: 🎮 BATTLE ARENA -->
+    <section class="hub-module-panel active" id="mod-battle-arena">
+      <div class="spectator-stage-card" id="spectatorStageCard" style="display:none">
+        <div class="play-section-header" style="margin-bottom:10px;">
+          <div>
+            <h2 style="font-size:1.15rem;display:flex;align-items:center;gap:8px;">
+              <span>📺 <span data-en>Match Viewer</span><span data-vi>Màn Hình Xem Trận</span></span>
+            </h2>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin-top:2px;" id="spectatorSubtitle"></p>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-sm btn-outline" id="btnToggleSpectator" type="button"></button>
+          </div>
+        </div>
+
+        <div class="spectator-iframe-wrap" id="spectatorIframeWrap">
+          <iframe id="spectatorIframe" title="Squeek Royale Match Viewer"></iframe>
+        </div>
+      </div>
+
+      <!-- Any player opens a room: start time, up to 100 hamsters, mode -->
+      <div class="play-section room-create" id="roomCreate">
+        <div class="play-section-header" style="margin-bottom:8px;">
+          <h2>➕ <span data-en>Create a room</span><span data-vi>Tạo phòng</span></h2>
+          <span class="muted" style="font-size:.78rem;"><span data-en>Anyone can open a match. One player only: no match, full refund.</span><span data-vi>Ai cũng tạo được trận. Chỉ 1 người vào: không có trận, hoàn 100% phí.</span></span>
+        </div>
+        <div class="room-form">
+          <label><span data-en>Starts at</span><span data-vi>Bắt đầu lúc</span>
+            <input type="datetime-local" id="roomStart" /></label>
+          <label><span data-en>Max hamsters</span><span data-vi>Số hamster tối đa</span>
+            <input type="number" id="roomMax" value="50" min="2" max="100" /></label>
+          <label><span data-en>Mode</span><span data-vi>Chế độ</span>
+            <select id="roomPreset"><option value="0">Standard</option><option value="1">Brawler</option><option value="2">Sniper</option></select></label>
+          <button class="btn btn-sm btn-primary" id="btnCreateRoom" type="button">➕ <span data-en>Create room</span><span data-vi>Tạo phòng</span></button>
+        </div>
+        <p class="muted" id="roomHint" style="font-size:.76rem;margin-top:6px;"></p>
+      </div>
+
+      <div class="play-section">
+        <div class="play-section-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <h2>🏟️ <span data-en>Battle Arenas</span><span data-vi>Danh Sách Đấu Trường</span></h2>
+            <span class="badge badge-gold" id="arenaCountBadge">0 arenas</span>
+            <span class="match-find">
+              <input type="text" inputmode="numeric" id="matchIdInput" placeholder="Match ID" />
+              <button class="btn btn-sm btn-outline" id="btnOpenMatch" type="button">🔎 <span data-en>Open</span><span data-vi>Mở</span></button>
+            </span>
+          </div>
+
+          <div class="play-tabs" id="arenaTabs" style="margin-bottom:0;">
+            <button class="play-tab on" data-tab="upcoming" type="button">
+              <span><span data-en>Open</span><span data-vi>Đang Mở</span></span>
+              <span class="play-tab-count" id="countUpcoming">0</span>
+            </button>
+            <button class="play-tab" data-tab="registered" type="button">
+              <span><span data-en>Registered</span><span data-vi>Đã Đăng Ký</span></span>
+              <span class="play-tab-count" id="countRegistered">0</span>
+            </button>
+            <button class="play-tab" data-tab="completed" type="button">
+              <span><span data-en>Finished</span><span data-vi>Đã Kết Thúc</span></span>
+              <span class="play-tab-count" id="countCompleted">0</span>
+            </button>
+            <button class="play-tab" data-tab="all" type="button">
+              <span><span data-en>All</span><span data-vi>Tất Cả</span></span>
+              <span class="play-tab-count" id="countAll">0</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="play-arena-grid" id="arenaGrid"></div>
+        <div class="arena-pager" id="arenaPager"></div>
+      </div>
+    </section>
+
+    <!-- MODULE 2: 🐹 MY HAMSTERS -->
+    <!-- MATCH PAGE: /play?match=<id> — details, joining, live view at start time, replay when done -->
+    <section class="hub-module-panel" id="mod-match">
+      <div class="play-section match-page">
+        <div class="match-head">
+          <button class="btn btn-sm btn-outline" id="btnMatchBack" type="button">← <span data-en>Matches</span><span data-vi>Danh sách trận</span></button>
+          <h2 id="matchTitle">Match</h2>
+          <span id="matchStatus" class="arena-card-status"></span>
+          <button class="btn btn-sm btn-outline" id="btnMatchShare" type="button">🔗 <span data-en>Share</span><span data-vi>Chia sẻ</span></button>
+        </div>
+        <div class="match-body">
+          <div id="matchInfo"></div>
+          <div id="matchCard"></div>
+        </div>
+        <p id="matchNote" class="match-note"></p>
+        <div id="matchStageSlot"></div>
+      </div>
+    </section>
+
+    <section class="hub-module-panel" id="mod-my-hamsters">
+      <div class="play-section">
+        <div class="play-section-header">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <h2>🐹 <span data-en>My Hamsters</span><span data-vi>Hamster Của Tôi</span></h2>
+            <span class="badge badge-cyan" id="hamsterCountBadge">0 hamsters</span>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+            <select id="mintQty" class="play-net-select" style="width:74px;">
+              <option value="1">1 NFT</option>
+              <option value="2">2 NFT</option>
+              <option value="3">3 NFT</option>
+              <option value="5">5 NFT</option>
+              <option value="10">10 NFT</option>
+            </select>
+            <button class="btn btn-sm btn-primary" id="btnMint" disabled>🎲 <span data-en>Mint Hamster</span><span data-vi>Mint Hamster</span></button>
+          </div>
+        </div>
+
+        <div id="mintInfo" class="play-mint-info"></div>
+
+        <div class="nft-legend-bar" style="margin-bottom:14px;">
+          <span class="nft-legend-item red">🔥 &gt;8.0</span>
+          <span class="nft-legend-item purple">🔮 6.0–8.0</span>
+          <span class="nft-legend-item green">🌿 4.0–5.9</span>
+          <span class="nft-legend-item wood">🪵 &lt;4.0</span>
+        </div>
+
+        <div class="grid" id="myHamsters"></div>
+      </div>
+    </section>
+
+    <!-- MODULE 3: 🏆 LEADERBOARD -->
+    <section class="hub-module-panel" id="mod-leaderboard">
+      <div class="play-section">
+        <div class="play-section-header">
+          <h2>🏆 <span data-en>Leaderboard</span><span data-vi>Bảng Xếp Hạng</span></h2>
+          <span class="badge badge-gold" id="leaderboardTotalBadge">0</span>
+        </div>
+
+        <div class="hub-kpi-grid" id="leaderboardKpis">
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Confirmed Matches</span><span data-vi>Trận Confirmed</span></span>
+            <span class="kpi-val" id="lbKpiMatches">0</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Players</span><span data-vi>Người Chơi</span></span>
+            <span class="kpi-val" id="lbKpiPlayers">0</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Total Points</span><span data-vi>Tổng Điểm</span></span>
+            <span class="kpi-val" id="lbKpiPoints">0</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Rewards (90%)</span><span data-vi>Quỹ Thưởng (90%)</span></span>
+            <span class="kpi-val" id="lbKpiPool">0 ETH</span>
+          </div>
+        </div>
+
+        <div class="hub-table-wrap">
+          <table class="hub-table">
+            <thead>
+              <tr>
+                <th><span data-en>Rank</span><span data-vi>Hạng</span></th>
+                <th>Wallet</th>
+                <th><span data-en>Matches</span><span data-vi>Số Trận</span></th>
+                <th><span data-en>Wins (#1)</span><span data-vi>Thắng (#1)</span></th>
+                <th>Kills</th>
+                <th><span data-en>Points</span><span data-vi>Điểm</span></th>
+                <th><span data-en>Rewards (ETH)</span><span data-vi>Thưởng (ETH)</span></th>
+              </tr>
+            </thead>
+            <tbody id="leaderboardBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 4: 📊 MATCH HISTORY -->
+    <section class="hub-module-panel" id="mod-match-history">
+      <div class="play-section">
+        <div class="play-section-header">
+          <h2>📊 <span data-en>Match History</span><span data-vi>Lịch Sử Trận Đấu</span></h2>
+          <span class="badge badge-cyan" id="historyFilterBadge"></span>
+        </div>
+
+        <div class="hub-kpi-grid">
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Entries</span><span data-vi>Lượt Đấu</span></span>
+            <span class="kpi-val" id="mhTotalEntries">0</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Win / Loss</span><span data-vi>Thắng / Thua</span></span>
+            <span class="kpi-val" id="mhWinLoss">0W - 0L</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Win Rate</span><span data-vi>Tỷ Lệ Thắng</span></span>
+            <span class="kpi-val" id="mhWinRate">0%</span>
+          </div>
+          <div class="hub-kpi-card">
+            <span class="kpi-label"><span data-en>Kills</span><span data-vi>Hạ Gục</span></span>
+            <span class="kpi-val" id="mhTotalKills">0</span>
+          </div>
+        </div>
+
+        <div class="hub-table-wrap">
+          <table class="hub-table">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Hamster NFT</th>
+                <th>Wallet</th>
+                <th><span data-en>Result</span><span data-vi>Kết quả</span></th>
+                <th><span data-en>Rank</span><span data-vi>Hạng</span></th>
+                <th>Kills</th>
+                <th><span data-en>Points</span><span data-vi>Điểm</span></th>
+                <th><span data-en>Reward</span><span data-vi>Thưởng</span></th>
+                <th>Replay</th>
+              </tr>
+            </thead>
+            <tbody id="matchHistoryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- MODULE 5: ⛓️ ON-CHAIN RECORDS -->
+    <section class="hub-module-panel" id="mod-onchain-records">
+      <div class="play-section">
+        <div class="onchain-banner">
+          <div>
+            <h2 style="font-size:1.25rem;color:#fff;margin-bottom:4px;">
+              ⛓️ <span data-en>On-chain Records &amp; Claim Rewards</span><span data-vi>Bản Ghi On-chain &amp; Nhận Toàn Bộ Thưởng</span>
+            </h2>
+            <p style="font-size:0.8rem;color:var(--text-muted);" id="claimAllSummaryText">
+              <span data-en>Shows <b>Confirmed</b> only when verified on the smart contract (<code>Status.Settled</code> + Merkle <code>pointsRoot</code> &amp; <code>resultHash</code>).</span>
+              <span data-vi>Chỉ hiển thị <b>Confirmed</b> khi đã xác thực trên Smart Contract (<code>Status.Settled</code> + khớp <code>pointsRoot</code> &amp; <code>resultHash</code>).</span>
+            </p>
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;">
+            <button class="btn-claim-all" id="btnClaimAllRewards" disabled></button>
+            <span style="font-size:0.72rem;color:var(--text-muted);" id="claimAllHint"></span>
+          </div>
+        </div>
+
+        <div class="play-section-header">
+          <label style="font-size:0.8rem;color:var(--text-muted);display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:auto;">
+            <input type="checkbox" id="chkOnlyMyRecords" style="width:auto;" />
+            <span data-en>Only my wallet</span><span data-vi>Chỉ hiện ví của tôi</span>
+          </label>
+        </div>
+
+        <div class="hub-table-wrap">
+          <table class="hub-table" id="onchainRecordsTable">
+            <thead>
+              <tr>
+                <th>Match ID</th>
+                <th>Wallet</th>
+                <th><span data-en>Result</span><span data-vi>Kết quả</span></th>
+                <th><span data-en>Rank</span><span data-vi>Hạng</span></th>
+                <th>Kills</th>
+                <th><span data-en>Transaction</span><span data-vi>Giao dịch</span></th>
+                <th><span data-en>Status</span><span data-vi>Trạng thái</span></th>
+              </tr>
+            </thead>
+            <tbody id="onchainRecordsBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    </div><!-- /hubContent -->
+  </main>
+
+  <!-- COMPACT FOOTER (Single line, zero redundant nav trees, zero admin links) -->
+  <footer class="site-footer" style="margin-top:40px;padding:22px 0;">
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;flex-wrap:wrap;gap:12px;">
+        <div class="brand">
+          <span class="brand-king-logo" aria-hidden="true" style="width:34px;height:34px;">
+            <img src="src/assets/agy/previews/seed_05_cheese_lord_spawn_unarmed_right.png" alt="" class="king-face" style="width:28px;height:28px;" />
+            <img src="src/assets/agy/hamster/accessories/crown_king_right.png" alt="" class="king-crown" style="width:22px;height:22px;top:-8px;" />
+          </span>
+          <span style="font-weight:800;color:#fff;">SQUEEK <span style="color:var(--gold);">ROYALE</span></span>
+          <span style="color:var(--text-muted);font-size:0.78rem;">· Sepolia Testnet</span>
+        </div>
+        <div style="display:flex;gap:16px;align-items:center;font-size:0.8rem;">
+          <a href="/">🏠 <span data-en>Home &amp; Whitepaper</span><span data-vi>Trang Chủ &amp; Whitepaper</span></a>
+          <a href="https://sepolia.etherscan.io" target="_blank" rel="noopener">Sepolia Etherscan ↗</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="src/ui/portal.js"></script>
+  <script type="module" src="src/ui/play.js"></script>
+</body>
+</html>
